@@ -5,34 +5,43 @@ import { useState } from 'react';
 
 export default function NoteFields() {
     const [title, setTitle] = useState('');
+    const [titleError, setTitleError] = useState(false);
     const [description, setDescription] = useState('');
+    const [images, setImages] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const note = {
-            title,
-            description,
-        };
+        if (!title.trim()) {
+            setTitleError(true);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('description', description);
+        images.forEach((file) => formData.append('images', file));
 
         try {
-            const response = await fetch('http://localhost:8080/api/note', {
+            const response = await fetch('http://localhost:8080/note/create', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(note),
+                body: formData,
             });
 
             if (response.ok) {
-                console.log('Note created successfully');
                 setTitle('');
+                setTitleError(false);
                 setDescription('');
-            } else {
-                console.error('Error creating note');
+                setImages([]);
             }
         } catch (error) {
             console.error('Network error:', error);
         }
     };
+
+    const handleFileChange = (e) => {
+        setImages(Array.from(e.target.files));
+    }
 
     return (
         <Box
@@ -62,25 +71,57 @@ export default function NoteFields() {
             >
                 <TextField
                     value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    id="standard-basic"
+                    onChange={(e) => {
+                        setTitle(e.target.value);
+                        if (titleError && e.target.value.trim() !== '') {
+                            setTitleError(false);
+                        }
+                    }}
                     label="Note Title"
                     variant="standard"
-                    sx={{ width: '25ch', mx: 'auto' }}
+                    sx={{ width: '25ch', mx: 'auto', my: '' }}
+                    required
+                    error={titleError}
+                    helperText={titleError ? 'Title is required' : ''}
                 />
                 <TextField
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    id="outlined-multiline-static"
                     label="Description"
                     multiline
                     rows={10}
                     variant="outlined"
                     sx={{ width: '60ch', height: '20ch' }}
+                    required
                 />
-                <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-                    Submit
-                </Button>
+                <input
+                    accept="image/*"
+                    id="upload-images"
+                    multiple
+                    type="file"
+                    onChange={handleFileChange}
+                    style={{ display: 'none' }}
+                />
+                <Box sx={{ display: 'flex', gap: 2, mt: 12 }}>
+                    <label htmlFor="upload-images">
+                        <Button variant="outlined" component="span">
+                            Upload Images
+                        </Button>
+                    </label>
+                    <Button type="submit" variant="contained">
+                        Submit
+                    </Button>
+                </Box>
+                {images.length > 0 && (
+                    <Box sx={{ mt: 1 }}>
+                        Selected files:
+                        <ul>
+                            {images.map((file, index) => (
+                                <li key={index}>{file.name}</li>
+                            ))}
+                        </ul>
+                    </Box>
+                )}
             </Box>
         </Box>
     );

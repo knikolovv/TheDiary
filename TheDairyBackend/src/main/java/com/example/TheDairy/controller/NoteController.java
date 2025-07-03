@@ -5,14 +5,16 @@ import com.example.TheDairy.service.NoteService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/note")
+@RequestMapping("/note")
 @AllArgsConstructor
 public class NoteController {
     private NoteService noteService;
@@ -23,9 +25,18 @@ public class NoteController {
         return ResponseEntity.ok(notes);
     }
 
-    @PostMapping("")
-    public ResponseEntity<Note> createNote(@Valid @RequestBody Note note) {
-        Note newNote = noteService.saveNote(note);
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Note> createNote(@Valid @RequestParam String title,
+                                           @Valid @RequestParam String description,
+                                           @RequestParam(required = false) MultipartFile[] images) throws IOException {
+        Note newNote = noteService.saveNote(title, description, images);
+
         return new ResponseEntity<>(newNote, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteNote(@PathVariable Long id) {
+        noteService.deleteNote(id);
+        return ResponseEntity.noContent().build();
     }
 }
