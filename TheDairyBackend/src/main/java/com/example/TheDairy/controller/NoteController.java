@@ -20,9 +20,19 @@ public class NoteController {
     private NoteService noteService;
 
     @GetMapping("")
-    public ResponseEntity<List<Note>> getNotes() {
-        List<Note> notes = noteService.getNotes();
+    public ResponseEntity<List<Note>> findAllNotes() {
+        List<Note> notes = noteService.findAllNotes();
         return ResponseEntity.ok(notes);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Note> getNoteById(@PathVariable Long id) {
+        Note note = noteService.getNoteById(id);
+        if (note != null) {
+            return ResponseEntity.ok(note);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -35,8 +45,12 @@ public class NoteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteNote(@PathVariable Long id) {
-        noteService.deleteNote(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteNoteById(@PathVariable Long id) {
+        if (noteService.getNoteById(id) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            noteService.deleteNote(id);
+            return ResponseEntity.ok().build();
+        }
     }
 }

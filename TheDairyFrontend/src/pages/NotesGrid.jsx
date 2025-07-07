@@ -1,8 +1,10 @@
 import { Grid, Card, CardContent, Typography, Box, Container } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function NotesGrid() {
     const [notes, setNotes] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchNotes = async () => {
@@ -22,13 +24,12 @@ export default function NotesGrid() {
 
 
     const handleNoteClick = (id) => {
-        console.log('Clicked note', id);
-        // navigate(`/notes/${id}`);
+        navigate(`/note/${id}`);
     };
 
     return (
         <Container maxWidth='xl'>
-            <Grid container spacing={5} sx={{ mt: 6}}>
+            <Grid container spacing={5} sx={{ mt: 6 }}>
                 {notes.map((note) => (
                     <Grid item xs={3} key={note.id}>
                         <Card
@@ -48,7 +49,7 @@ export default function NotesGrid() {
                                 flexDirection: 'column',
                                 justifyContent: 'space-between',
                                 height: '100%',
-                                width:'400px',
+                                width: '400px',
 
                             }}>
                                 <Typography variant="h4" gutterBottom>
@@ -61,6 +62,7 @@ export default function NotesGrid() {
                                         display: '-webkit-box',
                                         WebkitLineClamp: 5,
                                         WebkitBoxOrient: 'vertical',
+                                        wordBreak: 'break-word',
                                     }}>
                                     {note.description}
                                 </Typography>

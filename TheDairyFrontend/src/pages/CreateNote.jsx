@@ -2,12 +2,15 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function NoteFields() {
     const [title, setTitle] = useState('');
     const [titleError, setTitleError] = useState(false);
     const [description, setDescription] = useState('');
     const [images, setImages] = useState([]);
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -34,6 +37,8 @@ export default function NoteFields() {
                 setDescription('');
                 setImages([]);
             }
+
+            navigate('/notes')
         } catch (error) {
             console.error('Network error:', error);
         }
@@ -109,7 +114,7 @@ export default function NoteFields() {
                         </Button>
                     </label>
                     <Button type="submit" variant="contained">
-                        Submit
+                        Create
                     </Button>
                 </Box>
                 {images.length > 0 && (

@@ -5,6 +5,7 @@ import com.example.TheDairy.model.Image;
 import com.example.TheDairy.model.Note;
 import com.example.TheDairy.repository.ImageRepository;
 import com.example.TheDairy.repository.NoteRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Service
+@Transactional
 public class NoteService {
     @Autowired
     private NoteRepo noteRepo;
@@ -25,7 +27,7 @@ public class NoteService {
 
     private final Path root = Paths.get("uploads/notes/images");
 
-    public List<Note> getNotes() {
+    public List<Note> findAllNotes() {
         return noteRepo.findAll();
     }
 
@@ -64,5 +66,9 @@ public class NoteService {
         } else {
             throw new RuntimeException("Note not found with id: " + id);
         }
+    }
+
+    public Note getNoteById(Long id) {
+        return noteRepo.findById(id).orElse(null);
     }
 }

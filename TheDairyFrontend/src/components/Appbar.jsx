@@ -12,10 +12,9 @@ export default function Appbar({ onMenuClick }) {
   const navigate = useNavigate();
 
   const subPages = {
-    '/notes': [
+    '/note': [
       { label: 'All Notes', path: '/notes' },
       { label: 'Create New Note', path: '/notes/create' },
-      { label: 'Delete Note', path: '/notes/delete' },
     ],
   }
 
