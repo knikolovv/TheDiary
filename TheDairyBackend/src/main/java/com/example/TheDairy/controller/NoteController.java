@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/note")
+@RequestMapping("/notes")
 @AllArgsConstructor
 public class NoteController {
     private NoteService noteService;

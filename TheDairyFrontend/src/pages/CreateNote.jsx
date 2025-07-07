@@ -23,7 +23,7 @@ export default function NoteFields() {
         images.forEach((file) => formData.append('images', file));
 
         try {
-            const response = await fetch('http://localhost:8080/note/create', {
+            const response = await fetch('http://localhost:8080/notes/create', {
                 method: 'POST',
                 body: formData,
             });

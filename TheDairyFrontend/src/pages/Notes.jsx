@@ -7,7 +7,7 @@ export default function NotesGrid() {
     useEffect(() => {
         const fetchNotes = async () => {
             try {
-                const response = await fetch('http://localhost:8080/note');
+                const response = await fetch('http://localhost:8080/notes');
                 if (!response.ok) throw new Error('Could not fetch notes');
                 const data = await response.json();
                 setNotes(data);
@@ -28,7 +28,7 @@ export default function NotesGrid() {
 
     return (
         <Container maxWidth='xl'>
-            <Grid container spacing={5} justifyContent='center' sx={{ mt: 6}}>
+            <Grid container spacing={5} sx={{ mt: 6}}>
                 {notes.map((note) => (
                     <Grid item xs={3} key={note.id}>
                         <Card
