@@ -12,7 +12,8 @@ export default function NotesGrid() {
                 const response = await fetch('http://localhost:8080/notes');
                 if (!response.ok) throw new Error('Could not fetch notes');
                 const data = await response.json();
-                setNotes(data);
+                const sortedNotes = data.sort((a, b) => a.id - b.id);
+                setNotes(sortedNotes);
             }
             catch (error) {
                 console.log('Could not fetch notes', error)
@@ -31,7 +32,7 @@ export default function NotesGrid() {
         <Container maxWidth='xl'>
             <Grid container spacing={5} sx={{ mt: 6 }}>
                 {notes.map((note) => (
-                    <Grid item xs={3} key={note.id}>
+                    <Grid key={note.id}>
                         <Card
                             sx={{
                                 height: 250,

@@ -53,4 +53,15 @@ public class NoteController {
             return ResponseEntity.ok().build();
         }
     }
+
+    // TODO
+    @PutMapping("/{id}")
+    public ResponseEntity<Note> updateNote(
+            @PathVariable Long id,
+            @Valid @RequestParam String title,
+            @Valid @RequestParam String description,
+            @RequestParam(required = false) MultipartFile[] images) throws IOException {
+        Note updatedNote = noteService.updateNote(id, title, description, images);
+        return ResponseEntity.ok(updatedNote);
+    }
 }

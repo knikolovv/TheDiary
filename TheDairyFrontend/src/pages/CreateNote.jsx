@@ -45,16 +45,16 @@ export default function NoteFields() {
     };
 
     const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    if (!files.length) return;
+        const files = Array.from(e.target.files);
+        if (!files.length) return;
 
-    const filesWithPreview = files.map((file) => ({
-        file,
-        previewUrl: URL.createObjectURL(file),
-    }));
+        const filesWithPreview = files.map((file) => ({
+            file,
+            previewUrl: URL.createObjectURL(file),
+        }));
 
-    setImages((prevImages) => [...prevImages, ...filesWithPreview]);
-};
+        setImages((prevImages) => [...prevImages, ...filesWithPreview]);
+    };
 
 
     useEffect(() => {
@@ -69,7 +69,7 @@ export default function NoteFields() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minHeight: '75vh',
+                minHeight: '65vh',
             }}
         >
             <Box
@@ -112,8 +112,27 @@ export default function NoteFields() {
                     rows={10}
                     variant="outlined"
                     sx={{ width: '60ch', height: '20ch' }}
-                    required
                 />
+                {images.length > 0 && (
+                    <Box sx={{
+                        mt: 11,
+                        mx: 5,
+                        display: 'flex',
+                        gap: 2,
+                        flexWrap: 'wrap',
+                        justifyContent: 'center'
+                    }}>
+                        {images.map((img, index) => (
+                            <Box key={index}>
+                                <img
+                                    src={img.previewUrl}
+                                    alt={img.file.name}
+                                    style={{ width: '100%', height: '175px', objectFit: 'cover', borderRadius: '4px' }}
+                                />
+                            </Box>
+                        ))}
+                    </Box>
+                )}
                 <input
                     accept="image/*"
                     id="upload-images"
@@ -122,29 +141,23 @@ export default function NoteFields() {
                     onChange={handleFileChange}
                     style={{ display: 'none' }}
                 />
-                <Box sx={{ display: 'flex', gap: 2, mt: 12 }}>
-                    <label htmlFor="upload-images">
-                        <Button variant="outlined" component="span">
-                            Upload Images
+                <Box sx={{
+                    mt: 'auto',
+                    display: 'flex',
+                    mb: 3,
+                }}>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                        <label htmlFor="upload-images">
+                            <Button variant="outlined" component="span">
+                                Upload Images
+                            </Button>
+                        </label>
+                        <Button type="submit" variant="contained">
+                            Create
                         </Button>
-                    </label>
-                    <Button type="submit" variant="contained">
-                        Create
-                    </Button>
-                </Box>
-                {images.length > 0 && (
-                    <Box sx={{ mt: 2, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                        {images.map((img, index) => (
-                            <Box key={index} sx={{ alignItems: 'center' }}>
-                                <img
-                                    src={img.previewUrl}
-                                    alt={img.file.name}
-                                    style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '4px' }}
-                                />
-                            </Box>
-                        ))}
                     </Box>
-                )}
+                </Box>
+
             </Box>
         </Box>
     );

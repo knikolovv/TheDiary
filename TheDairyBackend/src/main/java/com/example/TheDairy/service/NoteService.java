@@ -76,6 +76,29 @@ public class NoteService {
         return noteRepo.findById(id).orElse(null);
     }
 
+    public Note updateNote(Long id, String title, String description, MultipartFile[] images) {
+        Note note = getNoteById(id);
+        if (note == null) {
+            throw new NullPointerException("No note with id: " + id + " was found!");
+        }
+        if (!title.isBlank()) {
+            note.setTitle(title);
+        }
+        note.setDescription(description);
+
+        if (images != null && images.length > 0) {
+            note.getImages().clear();
+
+            for (MultipartFile image : images) {
+                if (!image.isEmpty()) {
+
+                }
+            }
+        }
+        return noteRepo.save(note);
+    }
+
+
     public void deleteOrphanImages() {
         Set<String> orphanedImages = imageRepo.findAll()
                 .stream()
