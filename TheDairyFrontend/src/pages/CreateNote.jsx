@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function NoteFields() {
@@ -23,7 +23,7 @@ export default function NoteFields() {
         const formData = new FormData();
         formData.append('title', title);
         formData.append('description', description);
-        images.forEach((file) => formData.append('images', file));
+        images.forEach((img) => formData.append('images', img.file));
 
         try {
             const response = await fetch('http://localhost:8080/notes/create', {
@@ -45,8 +45,23 @@ export default function NoteFields() {
     };
 
     const handleFileChange = (e) => {
-        setImages(Array.from(e.target.files));
-    }
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+
+    const filesWithPreview = files.map((file) => ({
+        file,
+        previewUrl: URL.createObjectURL(file),
+    }));
+
+    setImages((prevImages) => [...prevImages, ...filesWithPreview]);
+};
+
+
+    useEffect(() => {
+        return () => {
+            images.forEach((img) => URL.revokeObjectURL(img.previewUrl));
+        };
+    }, [images]);
 
     return (
         <Box
@@ -118,13 +133,16 @@ export default function NoteFields() {
                     </Button>
                 </Box>
                 {images.length > 0 && (
-                    <Box sx={{ mt: 1 }}>
-                        Selected files:
-                        <ul>
-                            {images.map((file, index) => (
-                                <li key={index}>{file.name}</li>
-                            ))}
-                        </ul>
+                    <Box sx={{ mt: 2, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                        {images.map((img, index) => (
+                            <Box key={index} sx={{ alignItems: 'center' }}>
+                                <img
+                                    src={img.previewUrl}
+                                    alt={img.file.name}
+                                    style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '4px' }}
+                                />
+                            </Box>
+                        ))}
                     </Box>
                 )}
             </Box>

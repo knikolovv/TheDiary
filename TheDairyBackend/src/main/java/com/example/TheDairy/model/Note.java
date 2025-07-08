@@ -24,7 +24,7 @@ public class Note {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String description;
-    @OneToMany(mappedBy = "note", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "note", cascade = {CascadeType.MERGE,CascadeType.PERSIST}, orphanRemoval = true)
     @JsonManagedReference
     private List<Image> images = new ArrayList<>();
 }

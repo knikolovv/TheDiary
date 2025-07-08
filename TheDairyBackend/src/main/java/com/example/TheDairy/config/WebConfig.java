@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:/absolute/path/to/uploads/");
+                .addResourceLocations("file:uploads/");
     }
     @Bean
     public WebMvcConfigurer corsConfigurer() {

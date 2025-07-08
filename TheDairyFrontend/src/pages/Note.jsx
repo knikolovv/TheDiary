@@ -8,6 +8,7 @@ export default function Note() {
     const { id } = useParams();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [images, setImages] = useState([]);
 
     const navigate = useNavigate();
 
@@ -22,7 +23,7 @@ export default function Note() {
 
             navigate('/notes');
         } catch (error) {
-            console.error('Error deleting note with id:${id}', error)
+            console.error(`Error deleting note with id:${id}`, error)
         }
     }
 
@@ -34,6 +35,7 @@ export default function Note() {
                 const data = await response.json();
                 setTitle(data.title);
                 setDescription(data.description);
+                setImages(data.images || []);
             } catch (error) {
                 console.error(`Error fetching note with id: ${id}`, error);
             }
@@ -78,6 +80,32 @@ export default function Note() {
                 >
                     {description}
                 </Typography>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: 2,
+                        justifyContent: 'center',
+                        marginTop: 2,
+                    }}
+                >
+                    {images.map((img) => (
+                        <Box
+                            key={img.id}
+                            component="img"
+                            src={`http://localhost:8080/${img.path.replace(/\\/g, '/')}`}
+                            alt={`${img.fileName}`}
+                            sx={{
+                                maxWidth: '100%',
+                                maxHeight: 200,
+                                objectFit: 'cover',
+                                borderRadius: 1,
+                                boxShadow: 1,
+                            }}
+                        />
+                    ))}
+                </Box>
+
                 {title && <Box sx={{ display: 'flex', gap: 2, mb: 3, mt: 2 }}>
                     <Button variant="outlined" component="span">
                         Edit

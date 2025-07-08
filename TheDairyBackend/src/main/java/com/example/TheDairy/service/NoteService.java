@@ -3,19 +3,22 @@ package com.example.TheDairy.service;
 
 import com.example.TheDairy.model.Image;
 import com.example.TheDairy.model.Note;
-import com.example.TheDairy.repository.ImageRepository;
+import com.example.TheDairy.repository.ImageRepo;
 import com.example.TheDairy.repository.NoteRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -23,7 +26,7 @@ public class NoteService {
     @Autowired
     private NoteRepo noteRepo;
     @Autowired
-    private ImageRepository imageRepository;
+    private ImageRepo imageRepo;
 
     private final Path root = Paths.get("uploads/notes/images");
 
@@ -37,7 +40,7 @@ public class NoteService {
         note.setDescription(description);
         noteRepo.save(note);
 
-        if(images != null && images.length > 0) {
+        if (images != null && images.length > 0) {
             Files.createDirectories(root);
 
             for (MultipartFile image : images) {
@@ -50,7 +53,7 @@ public class NoteService {
                     img.setNote(note);
                     img.setFileName(fileName);
                     img.setPath(filePath.toString());
-                    imageRepository.save(img);
+                    imageRepo.save(img);
 
                     note.getImages().add(img);
                 }
@@ -63,6 +66,7 @@ public class NoteService {
     public void deleteNote(Long id) {
         if (noteRepo.existsById(id)) {
             noteRepo.deleteById(id);
+            deleteOrphanImages();
         } else {
             throw new RuntimeException("Note not found with id: " + id);
         }
@@ -70,5 +74,28 @@ public class NoteService {
 
     public Note getNoteById(Long id) {
         return noteRepo.findById(id).orElse(null);
+    }
+
+    public void deleteOrphanImages() {
+        Set<String> orphanedImages = imageRepo.findAll()
+                .stream()
+                .map(Image::getPath)
+                .map(path -> path.replace("\\", "/"))
+                .collect(Collectors.toSet());
+
+        File uploadsDir = new File("uploads/notes/images");
+        if (!uploadsDir.exists() || !uploadsDir.isDirectory()) {
+            throw new IllegalStateException("Uploads folder does not exist!");
+        }
+
+        File[] files = uploadsDir.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                String relativePath = "uploads/notes/images/" + file.getName();
+                if (!orphanedImages.contains(relativePath.replace("\\", "/"))) {
+                    file.delete();
+                }
+            }
+        }
     }
 }
