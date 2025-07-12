@@ -24,6 +24,8 @@ public class Note {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String description;
+    @Column(name = "is_pinned")
+    private boolean isPinned = false;
     @OneToMany(mappedBy = "note", cascade = {CascadeType.MERGE,CascadeType.PERSIST}, orphanRemoval = true)
     @JsonManagedReference
     private List<Image> images = new ArrayList<>();

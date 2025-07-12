@@ -60,8 +60,9 @@ public class NoteController {
             @PathVariable Long id,
             @Valid @RequestParam String title,
             @Valid @RequestParam String description,
-            @RequestParam(required = false) MultipartFile[] images) throws IOException {
-        Note updatedNote = noteService.updateNote(id, title, description, images);
+            @RequestParam boolean isPinned,
+            @RequestParam(required = false) MultipartFile[] images) {
+        Note updatedNote = noteService.updateNote(id, title, description, isPinned, images);
         return ResponseEntity.ok(updatedNote);
     }
 }

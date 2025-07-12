@@ -6,7 +6,7 @@ import com.example.TheDairy.model.Note;
 import com.example.TheDairy.repository.ImageRepo;
 import com.example.TheDairy.repository.NoteRepo;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class NoteService {
-    @Autowired
     private NoteRepo noteRepo;
-    @Autowired
+
     private ImageRepo imageRepo;
 
     private final Path root = Paths.get("uploads/notes/images");
@@ -76,7 +76,7 @@ public class NoteService {
         return noteRepo.findById(id).orElse(null);
     }
 
-    public Note updateNote(Long id, String title, String description, MultipartFile[] images) {
+    public Note updateNote(Long id, String title, String description, boolean isPinned, MultipartFile[] images) {
         Note note = getNoteById(id);
         if (note == null) {
             throw new NullPointerException("No note with id: " + id + " was found!");
@@ -85,7 +85,9 @@ public class NoteService {
             note.setTitle(title);
         }
         note.setDescription(description);
+        note.setPinned(isPinned);
 
+        // TODO edit images
         if (images != null && images.length > 0) {
             note.getImages().clear();
 

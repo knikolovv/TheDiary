@@ -6,13 +6,13 @@ import Box from '@mui/material/Box';
 export default function Layout({ children }) {
   const [sideAppBarOpen, setsideAppBarOpen] = useState(false);
 
-  const togglesideAppBar = () => {
+  const toggleSideAppBar = () => {
     setsideAppBarOpen((prev) => !prev);
   };
 
   return (
     <>
-      <Appbar onMenuClick={togglesideAppBar} />
+      <Appbar onMenuClick={toggleSideAppBar} />
       <SideAppBar open={sideAppBarOpen} />
 
       <Box

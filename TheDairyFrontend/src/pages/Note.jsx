@@ -6,15 +6,18 @@ import DialogContent from '@mui/material/DialogContent';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { TextField } from '@mui/material';
+import { PushPin } from '@mui/icons-material';
 
 export default function Note() {
     const { id } = useParams();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [pinned, setPinned] = useState(false);
     const [images, setImages] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
     const [editedDescription, setEditedDescription] = useState('');
+    const [editedPinned, setEditedPinned] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [isImageOpen, setIsImageOpen] = useState(false);
 
@@ -44,6 +47,7 @@ export default function Note() {
                 setTitle(data.title);
                 setDescription(data.description);
                 setImages(data.images || []);
+                setPinned(data.pinned || false);
             } catch (error) {
                 console.error(`Error fetching note with id: ${id}`, error);
             }
@@ -55,6 +59,7 @@ export default function Note() {
         const formData = new FormData();
         formData.append("title", editedTitle);
         formData.append("description", editedDescription);
+        formData.append("isPinned", editedPinned);
         images.forEach(img => formData.append("images", img));
         try {
             const response = await fetch(`http://localhost:8080/notes/${id}`, {
@@ -65,6 +70,7 @@ export default function Note() {
 
             setTitle(editedTitle);
             setDescription(editedDescription);
+            setPinned(editedPinned);
             setIsEditing(false);
         } catch (error) {
             console.error(`Error saving note with id: ${id}`, error);
@@ -87,9 +93,12 @@ export default function Note() {
         <Box
             sx={{
                 display: 'flex',
-                alignItems: 'center',
                 justifyContent: 'center',
-                minHeight: '65vh',
+                alignItems: 'start',
+                minHeight: '80vh',
+                py: 4,
+                overflowY: 'auto',
+                boxSizing: 'border-box',
             }}
         >
             <Box
@@ -103,10 +112,20 @@ export default function Note() {
                     paddingTop: 5,
                     minHeight: '600px',
                     width: '600px',
-                    height: '100%',
                     position: 'relative',
                 }}
             >
+                {!isEditing && pinned && (
+                    <PushPin
+                        sx={{
+                            position: 'absolute',
+                            top: 8,
+                            right: 8,
+                            transform: 'rotate(45deg)',
+                            color: 'primary.main',
+                        }}
+                    />
+                )}
                 {isEditing ? (
                     <>
                         <TextField
@@ -125,6 +144,16 @@ export default function Note() {
                             rows={10}
                             variant="outlined"
                             sx={{ width: '60ch' }}
+                        />
+                        <PushPin
+                            onClick={() => setEditedPinned(!editedPinned)}
+                            sx={{
+                                cursor: 'pointer',
+                                transform: editedPinned ? 'rotate(45deg)' : 'rotate(90deg)',
+                                color: editedPinned ? 'primary.main' : 'inherit',
+                                transition: 'transform 0.2s, color 0.2s',
+                                mr: 2,
+                            }}
                         />
                     </>
                 ) : (
@@ -192,6 +221,7 @@ export default function Note() {
                                 <Button variant="outlined" onClick={() => {
                                     setEditedTitle(title);
                                     setEditedDescription(description);
+                                    setEditedPinned(pinned);
                                     setIsEditing(true);
                                 }}>Edit</Button>
                                 <Button variant="contained" onClick={handleDelete}>
