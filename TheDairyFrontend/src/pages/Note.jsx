@@ -88,6 +88,22 @@ export default function Note() {
         setSelectedImage(null);
     };
 
+    const handleRemoveImage = async (imgId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/images/${imgId}`, {
+                method: 'DELETE',
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete image');
+            }
+
+            setImages((prevImages) => prevImages.filter((img) => img.id !== imgId));
+
+        } catch (error) {
+            console.error(`Error deleting image with id: ${imgId}`, error);
+        }
+    };
+
 
     return (
         <Box
@@ -186,23 +202,51 @@ export default function Note() {
                     {images.map((img) => (
                         <Box
                             key={img.id}
-                            component="img"
-                            src={`http://localhost:8080/${img.path.replace(/\\/g, '/')}`}
-                            alt={`${img.fileName}`}
-                            onClick={() => handleImageClick(img)}
                             sx={{
-                                maxWidth: '100%',
-                                maxHeight: 200,
-                                objectFit: 'cover',
-                                cursor: 'pointer',
-                                borderRadius: 1,
-                                boxShadow: 1,
-                                transition: 'transform 0.2s',
-                                '&:hover': {
-                                    transform: 'scale(1.03)',
-                                },
+                                position: 'relative',
+                                display: 'inline-block',
                             }}
-                        />
+                        >
+                            <Box
+                                component="img"
+                                src={`http://localhost:8080/${img.path.replace(/\\/g, '/')}`}
+                                alt={img.fileName}
+                                onClick={() => !isEditing && handleImageClick(img)}
+                                sx={{
+                                    maxWidth: '100%',
+                                    maxHeight: 200,
+                                    objectFit: 'cover',
+                                    cursor: isEditing ? 'default' : 'pointer',
+                                    borderRadius: 1,
+                                    boxShadow: 1,
+                                    transition: 'transform 0.2s',
+                                    '&:hover': {
+                                        transform: !isEditing ? 'scale(1.03)' : undefined,
+                                    },
+                                }}
+                            />
+                            {isEditing && (
+                                <Button
+                                    onClick={() => handleRemoveImage(img.id)}
+                                    sx={{
+                                        position: 'absolute',
+                                        top: 2,
+                                        right: 2,
+                                        minWidth: '15px',
+                                        height: '15px',
+                                        padding: 0,
+                                        color: 'white',
+                                        backgroundColor: 'rgba(0,0,0,0.6)',
+                                        '&:hover': {
+                                            backgroundColor: 'rgba(0,0,0,0.8)',
+                                        },
+                                        borderRadius: '50%',
+                                    }}
+                                >
+                                    ×
+                                </Button>
+                            )}
+                        </Box>
                     ))}
                 </Box>
                 <Box sx={{

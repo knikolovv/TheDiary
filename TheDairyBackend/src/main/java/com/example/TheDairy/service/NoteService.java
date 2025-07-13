@@ -92,7 +92,7 @@ public class NoteService {
             note.getImages().clear();
 
             for (MultipartFile image : images) {
-                if (!image.isEmpty()) {
+                if (!note.getImages().contains(image)) {
 
                 }
             }
