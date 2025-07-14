@@ -52,6 +52,7 @@ export default function Note() {
                 console.error(`Error fetching note with id: ${id}`, error);
             }
         };
+
         fetchNote();
     }, [id]);
 
@@ -96,7 +97,6 @@ export default function Note() {
             if (!response.ok) {
                 throw new Error('Failed to delete image');
             }
-
             setImages((prevImages) => prevImages.filter((img) => img.id !== imgId));
 
         } catch (error) {

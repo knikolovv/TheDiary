@@ -2,6 +2,7 @@ import { PushPin } from '@mui/icons-material';
 import { Grid, Card, CardContent, Typography, Box, Container } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PhotoIcon from '@mui/icons-material/Photo';
 
 export default function NotesGrid() {
     const [notes, setNotes] = useState([]);
@@ -35,8 +36,8 @@ export default function NotesGrid() {
     };
 
     return (
-        <Container maxWidth='xl' sx={{mt:4}}>
-            <Grid container spacing={3} 
+        <Container maxWidth='xl' sx={{ mt: 4 }}>
+            <Grid container spacing={3}
                 sx={{
                     justifyContent: 'center',
                 }}>
@@ -96,7 +97,7 @@ export default function NotesGrid() {
 
                                 <Box sx={{ mt: 'auto' }}>
                                     <Typography variant="caption">
-                                        📷 {note.images ? note.images.length : 0} image(s)
+                                        <PhotoIcon /> {note.images ? note.images.length : 0} image(s)
                                     </Typography>
                                 </Box>
                             </CardContent>

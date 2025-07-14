@@ -16,6 +16,9 @@ export default function Appbar({ onMenuClick }) {
       { label: 'All Notes', path: '/notes' },
       { label: 'Create New Note', path: '/notes/create' },
     ],
+    '/calendar': [
+      { label: 'Create reminder', path: '/calendar/reminder/create' }
+    ]
   }
 
   const currentPath = location.pathname;
