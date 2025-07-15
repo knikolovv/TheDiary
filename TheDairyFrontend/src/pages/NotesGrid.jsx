@@ -36,16 +36,13 @@ export default function NotesGrid() {
     };
 
     return (
-        <Container maxWidth='xl' sx={{ mt: 4 }}>
-            <Grid container spacing={3}
-                sx={{
-                    justifyContent: 'center',
-                }}>
+        <Container maxWidth='xl' sx={{ mt: 4 }} >
+            <Grid container spacing={3} justifyContent='center'>
                 {notes.map((note) => (
                     <Grid key={note.id} >
                         <Card
                             sx={{
-                                height: 250,
+                                height: 275,
                                 display: 'flex',
                                 flexDirection: 'column',
                                 cursor: 'pointer',
@@ -61,7 +58,7 @@ export default function NotesGrid() {
                                     flexDirection: 'column',
                                     justifyContent: 'space-between',
                                     height: '100%',
-                                    width: '350px',
+                                    width: '400px',
                                 }}
                             >
                                 {note.pinned && (
@@ -95,9 +92,10 @@ export default function NotesGrid() {
                                     {note.description}
                                 </Typography>
 
-                                <Box sx={{ mt: 'auto' }}>
+                                <Box sx={{ mt: 'auto', display: 'flex', alignItems: 'center' }}>
+                                    <PhotoIcon fontSize='medium' />
                                     <Typography variant="caption">
-                                        <PhotoIcon /> {note.images ? note.images.length : 0} image(s)
+                                        {note.images ? note.images.length : 0} image(s)
                                     </Typography>
                                 </Box>
                             </CardContent>

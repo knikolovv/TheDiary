@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { TextField } from '@mui/material';
-import { PushPin } from '@mui/icons-material';
+import PinButton from '../components/PinButton';
 
 export default function Note() {
     const { id } = useParams();
@@ -89,7 +89,7 @@ export default function Note() {
         setSelectedImage(null);
     };
 
-    const handleRemoveImage = async (imgId) => {
+    const handleDeleteImage = async (imgId) => {
         try {
             const response = await fetch(`http://localhost:8080/images/${imgId}`, {
                 method: 'DELETE',
@@ -126,22 +126,18 @@ export default function Note() {
                     border: '1px solid black',
                     borderRadius: 2,
                     paddingTop: 5,
-                    minHeight: '600px',
-                    width: '600px',
+                    minHeight: '700px',
+                    width: '100%',
+                    maxWidth: '700px',
                     position: 'relative',
                 }}
             >
-                {!isEditing && pinned && (
-                    <PushPin
-                        sx={{
-                            position: 'absolute',
-                            top: 8,
-                            right: 8,
-                            transform: 'rotate(45deg)',
-                            color: 'primary.main',
-                        }}
-                    />
-                )}
+                <PinButton
+                    pinned={isEditing ? editedPinned : pinned}
+                    editable={isEditing}
+                    onToggle={() => setEditedPinned(!editedPinned)}
+                />
+
                 {isEditing ? (
                     <>
                         <TextField
@@ -161,21 +157,11 @@ export default function Note() {
                             variant="outlined"
                             sx={{ width: '60ch' }}
                         />
-                        <PushPin
-                            onClick={() => setEditedPinned(!editedPinned)}
-                            sx={{
-                                cursor: 'pointer',
-                                transform: editedPinned ? 'rotate(45deg)' : 'rotate(90deg)',
-                                color: editedPinned ? 'primary.main' : 'inherit',
-                                transition: 'transform 0.2s, color 0.2s',
-                                mr: 2,
-                            }}
-                        />
                     </>
                 ) : (
                     <>
                         <Typography variant="h4" gutterBottom>
-                            {title || `No note with ID ${id} exists`}
+                            {title}
                         </Typography>
                         <Typography
                             variant="body1"
@@ -227,7 +213,7 @@ export default function Note() {
                             />
                             {isEditing && (
                                 <Button
-                                    onClick={() => handleRemoveImage(img.id)}
+                                    onClick={() => handleDeleteImage(img.id)}
                                     sx={{
                                         position: 'absolute',
                                         top: 2,

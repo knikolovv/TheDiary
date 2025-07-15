@@ -34,10 +34,11 @@ public class NoteService {
         return noteRepo.findAll();
     }
 
-    public Note saveNote(String title, String description, MultipartFile[] images) throws IOException {
+    public Note saveNote(String title, String description, boolean isPinned, MultipartFile[] images) throws IOException {
         Note note = new Note();
         note.setTitle(title);
         note.setDescription(description);
+        note.setPinned(isPinned);
         noteRepo.save(note);
 
         if (images != null && images.length > 0) {

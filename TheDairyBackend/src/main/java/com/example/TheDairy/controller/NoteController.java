@@ -38,8 +38,9 @@ public class NoteController {
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Note> createNote(@Valid @RequestParam String title,
                                            @Valid @RequestParam String description,
+                                           boolean isPinned,
                                            @RequestParam(required = false) MultipartFile[] images) throws IOException {
-        Note newNote = noteService.saveNote(title, description, images);
+        Note newNote = noteService.saveNote(title, description, isPinned, images);
 
         return new ResponseEntity<>(newNote, HttpStatus.CREATED);
     }
@@ -60,7 +61,7 @@ public class NoteController {
             @PathVariable Long id,
             @Valid @RequestParam String title,
             @Valid @RequestParam String description,
-            @RequestParam boolean isPinned,
+            boolean isPinned,
             @RequestParam(required = false) MultipartFile[] images) {
         Note updatedNote = noteService.updateNote(id, title, description, isPinned, images);
         return ResponseEntity.ok(updatedNote);

@@ -3,12 +3,14 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PinButton from '../components/PinButton';
 
-export default function NoteFields() {
+export default function CreateNote() {
     const [title, setTitle] = useState('');
     const [titleError, setTitleError] = useState(false);
     const [description, setDescription] = useState('');
     const [images, setImages] = useState([]);
+    const [pinned, setPinned] = useState(false);
 
     const navigate = useNavigate();
 
@@ -24,6 +26,7 @@ export default function NoteFields() {
         formData.append('title', title);
         formData.append('description', description);
         images.forEach((img) => formData.append('images', img.file));
+        formData.append('isPinned', pinned);
 
         try {
             const response = await fetch('http://localhost:8080/notes/create', {
@@ -56,6 +59,14 @@ export default function NoteFields() {
         setImages((prevImages) => [...prevImages, ...filesWithPreview]);
     };
 
+    const handleRemoveImage = (indexToRemove) => {
+        setImages((prevImages) => {
+            const imageToRemove = prevImages[indexToRemove];
+            
+            URL.revokeObjectURL(imageToRemove.previewUrl);
+            return prevImages.filter((_, index) => index !== indexToRemove);
+        });
+    };
 
     useEffect(() => {
         return () => {
@@ -87,8 +98,14 @@ export default function NoteFields() {
                     paddingTop: 5,
                     minHeight: '600px',
                     width: '600px',
+                    position: 'relative'
                 }}
             >
+                <PinButton
+                    pinned={pinned}
+                    editable
+                    onToggle={() => setPinned(!pinned)}
+                />
                 <TextField
                     value={title}
                     onChange={(e) => {
@@ -123,12 +140,42 @@ export default function NoteFields() {
                         justifyContent: 'center'
                     }}>
                         {images.map((img, index) => (
-                            <Box key={index}>
+                            <Box
+                                key={index}
+                                sx={{
+                                    position: 'relative',
+                                    display: 'inline-block',
+                                }}
+                            >
                                 <img
                                     src={img.previewUrl}
                                     alt={img.file.name}
-                                    style={{ width: '100%', height: '175px', objectFit: 'cover', borderRadius: '4px' }}
+                                    style={{
+                                        width: '100%',
+                                        height: '175px',
+                                        objectFit: 'cover',
+                                        borderRadius: '4px'
+                                    }}
                                 />
+                                <Button
+                                    onClick={() => handleRemoveImage(index)}
+                                    sx={{
+                                        position: 'absolute',
+                                        top: 2,
+                                        right: 2,
+                                        minWidth: '15px',
+                                        height: '15px',
+                                        padding: 0,
+                                        color: 'white',
+                                        backgroundColor: 'rgba(0,0,0,0.6)',
+                                        '&:hover': {
+                                            backgroundColor: 'rgba(0,0,0,0.8)',
+                                        },
+                                        borderRadius: '50%',
+                                    }}
+                                >
+                                    ×
+                                </Button>
                             </Box>
                         ))}
                     </Box>
@@ -157,7 +204,6 @@ export default function NoteFields() {
                         </Button>
                     </Box>
                 </Box>
-
             </Box>
         </Box>
     );
