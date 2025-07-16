@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,22 +15,22 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Reminder {
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String title;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime reminderDateTime;
+    private LocalDateTime eventDateTime;
     @Column(updatable = false)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
     @Column
     private boolean isAllDay;
 
     @PrePersist
     protected void onCreate() {
-        this.createdDate = LocalDateTime.now();
+        this.createdDate = LocalDate.now();
     }
 }

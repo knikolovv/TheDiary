@@ -31,7 +31,6 @@ export default function Note() {
             if (!response.ok) {
                 throw new Error('Failed to delete note!');
             }
-
             navigate('/notes');
         } catch (error) {
             console.error(`Error deleting note with id:${id}`, error)
@@ -98,7 +97,6 @@ export default function Note() {
                 throw new Error('Failed to delete image');
             }
             setImages((prevImages) => prevImages.filter((img) => img.id !== imgId));
-
         } catch (error) {
             console.error(`Error deleting image with id: ${imgId}`, error);
         }

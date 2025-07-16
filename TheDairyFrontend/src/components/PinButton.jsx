@@ -3,7 +3,7 @@ import { PushPin } from '@mui/icons-material';
 export default function PinButton({ pinned, editable = false, onToggle }) {
     return (
         (pinned || editable) && (
-            <PushPin
+            <PushPin fontSize='large'
                 onClick={editable ? onToggle : undefined}
                 sx={{
                     position: 'absolute',

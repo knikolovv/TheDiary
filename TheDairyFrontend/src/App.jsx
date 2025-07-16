@@ -20,7 +20,6 @@ function App() {
           <Route path="/calendar" element={<Calendar />} />
           {/* <Route path="/food" element={<Food />} /> */}
           {/* <Route path="/finances" element={<Finances />} /> */}
-          {/* <Route path="/note/:id/edit" element={<EditNote />} />  */}
         </Routes>
       </Layout>
     </Router>

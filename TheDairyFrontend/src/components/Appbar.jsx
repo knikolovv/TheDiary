@@ -16,9 +16,6 @@ export default function Appbar({ onMenuClick }) {
       { label: 'All Notes', path: '/notes' },
       { label: 'Create New Note', path: '/notes/create' },
     ],
-    '/calendar': [
-      { label: 'Create reminder', path: '/calendar/reminder/create' }
-    ]
   }
 
   const currentPath = location.pathname;
@@ -53,7 +50,13 @@ export default function Appbar({ onMenuClick }) {
                 <Button
                   key={action.label}
                   color="inherit"
-                  onClick={() => navigate(action.path)}
+                  onClick={() => {
+                    if (action.path) {
+                      navigate(action.path);
+                    } else if (action.action === 'createReminder') {
+                      onMenuClick?.('createReminder');
+                    }
+                  }}
                 >
                   {action.label}
                 </Button>
