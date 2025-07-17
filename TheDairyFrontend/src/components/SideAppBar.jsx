@@ -26,6 +26,7 @@ export default function SideAppBar({ open }) {
                     width: sideAppBarWidth,
                     boxSizing: 'border-box',
                     top: '64px',
+                    backgroundColor:'#A32C2C'
                 },
             }}
         >
@@ -38,13 +39,13 @@ export default function SideAppBar({ open }) {
                         >
                             <ListItemText primary={
                                 <Typography
-                                variant="h6"
-                                sx={{
-                                    textAlign: 'center',
-                                    fontWeight: 500,
-                                }}>
-                                {item.text}
-                            </Typography>} />
+                                    variant="h6"
+                                    sx={{
+                                        textAlign: 'center',
+                                        fontWeight: 500,
+                                    }}>
+                                    {item.text}
+                                </Typography>} />
                         </ListItemButton>
                     ))}
                 </List>

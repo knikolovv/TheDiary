@@ -26,7 +26,7 @@ export default function Appbar({ onMenuClick }) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
+      <AppBar position="fixed" sx={{backgroundColor:'#A32C2C'}}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <IconButton
@@ -39,7 +39,7 @@ export default function Appbar({ onMenuClick }) {
             >
               <MenuIcon></MenuIcon>
             </IconButton>
-            <Typography variant="h6" component="div">
+            <Typography variant="h6" component="div" color='rgb(0,0,0)'>
               THE Diary
             </Typography>
           </Box>

@@ -22,6 +22,8 @@ export default function Layout({ children }) {
           marginLeft: sideAppBarOpen ? `${sideAppBarWidth}px` : 0,
           padding: 2,
           mt: '64px',
+          height: '100vh',
+          backgroundColor: '#2A2B2E',
         }}
       >
         {children}

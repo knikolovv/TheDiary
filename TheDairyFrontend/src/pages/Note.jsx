@@ -109,7 +109,6 @@ export default function Note() {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'start',
-                minHeight: '80vh',
                 py: 4,
                 overflowY: 'auto',
                 boxSizing: 'border-box',
@@ -128,6 +127,7 @@ export default function Note() {
                     width: '100%',
                     maxWidth: '700px',
                     position: 'relative',
+                    backgroundColor: '#D4Af37'
                 }}
             >
                 <PinButton

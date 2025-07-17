@@ -86,8 +86,8 @@ export default function EventDialog({
             <Box
                 sx={{
                     p: 2,
-                    minWidth: 500,
-                    minHeight: 300,
+                    minWidth: 400,
+                    minHeight: 250,
                     display: 'flex',
                     flexDirection: 'column',
                     height: '100%'

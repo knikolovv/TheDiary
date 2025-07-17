@@ -48,6 +48,7 @@ export default function NotesGrid() {
                                 cursor: 'pointer',
                                 border: '1px solid rgba(0, 0, 0, 0.2)',
                                 position: 'relative',
+                                backgroundColor: '#D4Af37',
                             }}
                             onClick={() => handleNoteClick(note.id)}
                         >

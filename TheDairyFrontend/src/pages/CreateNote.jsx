@@ -80,7 +80,7 @@ export default function CreateNote() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minHeight: '65vh',
+                py: 4,
             }}
         >
             <Box
@@ -96,9 +96,11 @@ export default function CreateNote() {
                     border: '1px solid black',
                     borderRadius: 2,
                     paddingTop: 5,
-                    minHeight: '600px',
-                    width: '600px',
-                    position: 'relative'
+                    minHeight: '700px',
+                    width:'100%',
+                    maxWidth: '700px',
+                    position: 'relative',
+                    backgroundColor: '#D4Af37'
                 }}
             >
                 <PinButton

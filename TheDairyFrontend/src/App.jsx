@@ -1,13 +1,10 @@
-import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CreateNote from './pages/CreateNote';
 import NotesGrid from './pages/NotesGrid';
 import Layout from './components/Layout';
 import Note from './pages/Note';
-import Calendar from './pages/Calendar'
-// import NotesList from './pages/NotesList';
-// import ViewNote from './pages/ViewNote';
-// import EditNote from './pages/EditNote';
+import Calendar from './pages/Calendar';
+import Finances from './pages/Finances';
 
 function App() {
   return (
@@ -19,7 +16,7 @@ function App() {
           <Route path="/note/:id" element={<Note />} />
           <Route path="/calendar" element={<Calendar />} />
           {/* <Route path="/food" element={<Food />} /> */}
-          {/* <Route path="/finances" element={<Finances />} /> */}
+          {<Route path="/finances" element={<Finances />} />}
         </Routes>
       </Layout>
     </Router>
