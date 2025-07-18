@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/calendar/event")
 public class EventController {
-    EventService eventService;
+    private EventService eventService;
 
     @GetMapping("")
     public ResponseEntity<List<Event>> findAllEvents() {

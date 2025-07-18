@@ -55,7 +55,6 @@ public class NoteController {
         }
     }
 
-    // TODO
     @PutMapping("/{id}")
     public ResponseEntity<Note> updateNote(
             @PathVariable Long id,

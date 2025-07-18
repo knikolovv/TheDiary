@@ -7,8 +7,10 @@ import com.example.TheDairy.repository.ImageRepo;
 import com.example.TheDairy.repository.NoteRepo;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,7 +76,8 @@ public class NoteService {
     }
 
     public Note getNoteById(Long id) {
-        return noteRepo.findById(id).orElse(null);
+        return noteRepo.findById(id).
+                orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Note entry not found"));
     }
 
     public Note updateNote(Long id, String title, String description, boolean isPinned, MultipartFile[] images) {

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class ImageService {
-    ImageRepo imageRepo;
+    private ImageRepo imageRepo;
 
     public void deleteImageById(Long id) {
         if (!imageRepo.existsById(id)) {

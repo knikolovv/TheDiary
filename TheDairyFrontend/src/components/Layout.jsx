@@ -11,8 +11,11 @@ export default function Layout({ children }) {
   };
 
   return (
-    <>
-      <Appbar onMenuClick={toggleSideAppBar} />
+    <div style={{
+      backgroundColor: '#2A2B2E',
+      height: '100vh',
+    }}>
+      <Appbar onMenuClick={toggleSideAppBar} sideAppBarOpen={sideAppBarOpen} sideAppBarWidth={`${sideAppBarWidth}px`} />
       <SideAppBar open={sideAppBarOpen} />
 
       <Box
@@ -20,14 +23,12 @@ export default function Layout({ children }) {
         sx={{
           transition: 'margin 0.3s',
           marginLeft: sideAppBarOpen ? `${sideAppBarWidth}px` : 0,
-          padding: 2,
-          mt: '64px',
-          height: '100vh',
+          pt:12,
           backgroundColor: '#2A2B2E',
         }}
       >
         {children}
       </Box>
-    </>
+    </div>
   );
 }

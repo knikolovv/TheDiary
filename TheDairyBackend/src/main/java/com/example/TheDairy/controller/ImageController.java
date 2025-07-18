@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RequestMapping("/images")
 public class ImageController {
-    ImageService imageService;
+    private ImageService imageService;
 
     @DeleteMapping("/{id}")
     public void deleteImageById(@PathVariable Long id) {

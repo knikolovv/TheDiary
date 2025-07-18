@@ -6,8 +6,9 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { sideAppBarWidth } from './SideAppBar';
 
-export default function Appbar({ onMenuClick }) {
+export default function Appbar({ onMenuClick, sideAppBarOpen }) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -16,6 +17,9 @@ export default function Appbar({ onMenuClick }) {
       { label: 'All Notes', path: '/notes' },
       { label: 'Create New Note', path: '/notes/create' },
     ],
+    '/finances': [
+      { label: 'Log Transaction', path: '/create' },
+    ]
   }
 
   const currentPath = location.pathname;
@@ -26,13 +30,12 @@ export default function Appbar({ onMenuClick }) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{backgroundColor:'#A32C2C'}}>
+      <AppBar sx={{ position: 'fixed', backgroundColor: '#5D7FA3' }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center'}}>
             <IconButton
               size="large"
               edge="start"
-              color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
               onClick={onMenuClick}
@@ -45,16 +48,20 @@ export default function Appbar({ onMenuClick }) {
           </Box>
 
           {actions && (
-            <Box sx={{ display: 'flex', gap: 1 }}>
+            <Box sx={{
+              pr:18,
+              gap: 1,
+              color: 'rgb(0,0,0)',
+              transition: 'margin 0.3s',
+              marginLeft: sideAppBarOpen ? `${sideAppBarWidth}px` : 0,
+            }}>
               {actions.map((action) => (
                 <Button
                   key={action.label}
-                  color="inherit"
+                  color='rgb(0,0,0)'
                   onClick={() => {
                     if (action.path) {
                       navigate(action.path);
-                    } else if (action.action === 'createReminder') {
-                      onMenuClick?.('createReminder');
                     }
                   }}
                 >

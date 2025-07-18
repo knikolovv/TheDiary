@@ -48,7 +48,7 @@ export default function NotesGrid() {
                                 cursor: 'pointer',
                                 border: '1px solid rgba(0, 0, 0, 0.2)',
                                 position: 'relative',
-                                backgroundColor: '#D4Af37',
+                                backgroundColor: '#c9b05fff',
                             }}
                             onClick={() => handleNoteClick(note.id)}
                         >
@@ -101,7 +101,6 @@ export default function NotesGrid() {
                                 </Box>
                             </CardContent>
                         </Card>
-
                     </Grid>
                 ))}
             </Grid>

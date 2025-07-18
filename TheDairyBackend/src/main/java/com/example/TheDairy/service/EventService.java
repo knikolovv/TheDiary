@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class EventService {
-    EventRepo eventRepo;
+    private EventRepo eventRepo;
 
     public List<Event> findAllEvents() {
         return eventRepo.findAll();
