@@ -8,7 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { sideAppBarWidth } from './SideAppBar';
 
-export default function Appbar({ onMenuClick, sideAppBarOpen }) {
+export default function Appbar({ onMenuClick, sideAppBarOpen, pageTitle }) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ export default function Appbar({ onMenuClick, sideAppBarOpen }) {
               <MenuIcon></MenuIcon>
             </IconButton>
             <Typography variant="h6" component="div" color='rgb(0,0,0)'>
-              THE Diary
+              {pageTitle}
             </Typography>
           </Box>
 

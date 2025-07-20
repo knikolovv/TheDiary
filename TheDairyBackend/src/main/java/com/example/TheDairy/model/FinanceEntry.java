@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class FinanceEntry {
     private String counterparty;
     @Column(name = "category")
     @Enumerated(EnumType.STRING)
+    @NotNull
     private FinancialCategory category;
     @Column(nullable = false)
     private Double amount;
@@ -35,4 +37,8 @@ public class FinanceEntry {
     private String description;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
+
+    public String getCategory() {
+        return category.getDisplayName();
+    }
 }
