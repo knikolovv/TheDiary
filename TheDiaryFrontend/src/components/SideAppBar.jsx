@@ -10,7 +10,7 @@ export default function SideAppBar({ open }) {
     const menuItems = [
         { text: "Calendar", path: "/calendar" },
         { text: "Finances", path: "/finances" },
-        { text: "Foods", path: "/foods" },
+        { text: "Nutrition", path: "/nutrition" },
         { text: "Notes", path: "/notes" },
     ];
 

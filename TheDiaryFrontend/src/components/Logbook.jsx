@@ -1,7 +1,10 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
-export default function Logbook({ title, entries, extraDetailsByMonth = {}, extraDetailsDaily = [],
-}) {
+export default function Logbook({ title, entries, extraDetailsByMonth = {}, extraDetailsDaily = [], renderEntry }) {
+    const location = useLocation();
+    const currentPath = location.pathname;
+
     const groupedByMonth = entries.reduce((acc, entry) => {
         const [year, month] = entry.date.split("-");
         const monthKey = `${year}-${month}`;
@@ -10,6 +13,7 @@ export default function Logbook({ title, entries, extraDetailsByMonth = {}, extr
         acc[monthKey][entry.date].push(entry);
         return acc;
     }, {});
+
 
     const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => (a < b ? 1 : -1));
     const sortedDays = (month) =>
@@ -48,8 +52,13 @@ export default function Logbook({ title, entries, extraDetailsByMonth = {}, extr
             >
                 {title}
             </div>
+            {sortedMonths.length === 0 && (
+                <div style={{ textAlign: 'center', marginTop: 20, fontSize: 20 }}>
+                    No entries yet.
+                </div>
+            )}
 
-            <div
+            {entries.length > 0 && (<div
                 style={{
                     border: "2px solid black",
                     borderRadius: 10,
@@ -58,6 +67,7 @@ export default function Logbook({ title, entries, extraDetailsByMonth = {}, extr
                     justifySelf: "center",
                 }}
             >
+
                 {sortedMonths.map((month) => (
                     <div key={month} style={{ marginBottom: 16 }}>
                         <div
@@ -166,24 +176,9 @@ export default function Logbook({ title, entries, extraDetailsByMonth = {}, extr
                                     >
                                         {groupedByMonth[month][date].map((entry) => (
                                             <li key={entry.id}>
-                                                <div
-                                                    style={{
-                                                        display: "flex",
-                                                        width: "100%",
-                                                        alignItems: "center",
-                                                        color: "rgb(255,255,255)",
-                                                    }}
-                                                >
-                                                    <div>
-                                                        <div>{entry.counterparty}</div>
-                                                        <div style={{ fontSize: "0.8em", color: "gray" }}>
-                                                            {entry.category}
-                                                        </div>
-                                                    </div>
-                                                    <div style={{ marginLeft: "auto", paddingRight: 4 }}>
-                                                        {Number(entry.amount).toFixed(2)}$
-                                                    </div>
-                                                </div>
+                                                <Link to={`${currentPath}/${entry.id}`} style={{ textDecoration: "none" }} >
+                                                    {renderEntry(entry)}
+                                                </Link>
                                             </li>
                                         ))}
                                     </ul>
@@ -209,6 +204,7 @@ export default function Logbook({ title, entries, extraDetailsByMonth = {}, extr
                     </div>
                 ))}
             </div>
+            )}
         </div>
     );
 }

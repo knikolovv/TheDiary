@@ -49,12 +49,34 @@ export default function Finances() {
         return result;
     }, [financeEntries]);
 
+    const renderEntry = ((entry) =>
+        <div
+            style={{
+                display: "flex",
+                width: "100%",
+                alignItems: "center",
+                color: "rgb(255,255,255)",
+            }}
+        >
+            <div>
+                <div>{entry.counterparty}</div>
+                <div style={{ fontSize: "0.8em", color: "gray" }}>
+                    {entry.category.charAt(0) + entry.category.slice(1).toLowerCase()}
+                </div>
+            </div>
+            <div style={{ marginLeft: "auto", paddingRight: 4 }}>
+                {Number(entry.amount).toFixed(2)}$
+            </div>
+        </div>
+    )
+
     return (
         <div style={{ paddingBottom: 30 }}>
             <Logbook
                 title={"DesktopBank"}
                 extraDetailsByMonth={extraDetailsByMonth}
-                entries={financeEntries} />
+                entries={financeEntries}
+                renderEntry={renderEntry} />
         </div>
     )
 }

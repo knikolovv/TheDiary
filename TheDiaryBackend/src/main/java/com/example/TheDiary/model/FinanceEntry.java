@@ -37,8 +37,4 @@ public class FinanceEntry {
     private String description;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
-
-    public String getCategory() {
-        return category.getDisplayName();
-    }
 }
