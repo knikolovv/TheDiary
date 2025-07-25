@@ -16,7 +16,7 @@ export default function Layout({ children }) {
     "/finance": "Finances",
     "/note": "Notes",
     "/calendar": "Calendar",
-    "/food": "Foods"
+    "/nutrition": "Nutrition"
   };
 
   const currentPath = Object.keys(pageTitleMap).find((path) =>

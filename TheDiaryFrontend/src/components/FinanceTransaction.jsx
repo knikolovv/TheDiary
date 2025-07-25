@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function FinanceTransaction({ mode = "create", entryData = null, handleCreate }) {
+export default function FinanceTransaction({ componentMode, entryData = null, handleCreate, handleEdit, handleDelete }) {
     const today = new Date().toISOString().split("T")[0];
 
     const [category, setCategory] = useState(entryData?.category || "");
     const [date, setDate] = useState(entryData?.date || today);
     const [counterparty, setCounterparty] = useState(entryData?.counterparty || "");
-    const [amount, setAmount] = useState(entryData?.amount ?? "");
+    const [amount, setAmount] = useState(entryData?.amount ?? 0);
     const [paymentMethod, setPaymentMethod] = useState(entryData?.paymentMethod || "CARD");
     const [description, setDescription] = useState(entryData?.description || "");
+    const [mode, setMode] = useState(componentMode);
 
     useEffect(() => {
         if (entryData) {
@@ -20,13 +21,13 @@ export default function FinanceTransaction({ mode = "create", entryData = null, 
             setPaymentMethod(entryData.paymentMethod || "CARD");
             setDescription(entryData.description || "");
         }
-        console.log(entryData)
-    }, [entryData]);
+    }, [entryData, today]);
 
     const navigate = useNavigate();
 
     const isViewMode = mode === "view";
     const isCreateMode = mode === "create";
+    const isEditMode = mode === "edit";
     const isReadOnly = isViewMode;
 
     const categories = [
@@ -69,6 +70,15 @@ export default function FinanceTransaction({ mode = "create", entryData = null, 
                 }
                 .custom-input:focus::placeholder {
                      color: transparent;
+                }
+                .no-spinner::-webkit-outer-spin-button,
+                .no-spinner::-webkit-inner-spin-button {
+                  -webkit-appearance: none;
+                  margin: 0;
+                }
+
+                .no-spinner {
+                  -moz-appearance: textfield;
                 }
                 `}
             </style>
@@ -131,11 +141,12 @@ export default function FinanceTransaction({ mode = "create", entryData = null, 
                     ))}
                 </select>
                 <input
+                    type="number"
+                    className="no-spinner custom-input"
                     disabled={isReadOnly}
                     placeholder="Amount"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
-                    className="custom-input"
                     style={{
                         backgroundColor: "transparent",
                         border: "1px solid black",
@@ -194,6 +205,7 @@ export default function FinanceTransaction({ mode = "create", entryData = null, 
                         borderRadius: 4,
                         width: "50%",
                         color: "black",
+                        outline: "none",
                     }}
                 />
                 <textarea
@@ -215,6 +227,7 @@ export default function FinanceTransaction({ mode = "create", entryData = null, 
                         width: "50%",
                         height: '100%',
                         gridColumn: "1 / span 2",
+                        outline: "none",
                     }}
                 />
                 <div style={{ gridColumn: "1 / span 2" }}>
@@ -231,7 +244,58 @@ export default function FinanceTransaction({ mode = "create", entryData = null, 
                         }}>
                         Cancel
                     </button>
-                    {!isViewMode && <button
+                    {isViewMode && (
+                        <>
+                            <button
+                                onClick={() => setMode("edit")}
+                                style={buttonStyle}
+                                onMouseOver={(e) => {
+                                    e.target.style.backgroundColor = "rgba(39, 35, 35, 1)";
+                                }}
+                                onMouseOut={(e) => {
+                                    e.target.style.backgroundColor = "rgba(56, 53, 53, 1)";
+                                }}>
+                                Edit
+                            </button>
+
+                            <button
+                                onClick={() => handleDelete(entryData.id)}
+                                style={buttonStyle}
+                                onMouseOver={(e) => {
+                                    e.target.style.backgroundColor = "rgba(39, 35, 35, 1)";
+                                }}
+                                onMouseOut={(e) => {
+                                    e.target.style.backgroundColor = "rgba(56, 53, 53, 1)";
+                                }}>
+                                Delete
+                            </button>
+                        </>
+                    )}
+                    {isEditMode &&
+                        <button
+                            onClick={async () => {
+                                await handleEdit({
+                                    id: entryData.id,
+                                    counterparty,
+                                    category,
+                                    amount: parseFloat(amount),
+                                    paymentMethod,
+                                    date,
+                                    description
+                                });
+                                setMode("view");
+                            }}
+                            style={buttonStyle}
+                            onMouseOver={(e) => {
+                                e.target.style.backgroundColor = "rgba(39, 35, 35, 1)";
+                            }}
+                            onMouseOut={(e) => {
+                                e.target.style.backgroundColor = "rgba(56, 53, 53, 1)";
+                            }}>
+                            Save
+                        </button>
+                    }
+                    {isCreateMode && <button
                         type="submit"
                         onClick={() => handleCreate({
                             counterparty,

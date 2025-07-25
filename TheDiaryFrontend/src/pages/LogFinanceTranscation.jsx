@@ -24,6 +24,6 @@ export default function LogFinanceTransaction() {
     }
 
     return (
-        <FinanceTransaction mode="create" handleCreate={handleCreate}></FinanceTransaction>
+        <FinanceTransaction componentMode="create" handleCreate={handleCreate}></FinanceTransaction>
     )
 }

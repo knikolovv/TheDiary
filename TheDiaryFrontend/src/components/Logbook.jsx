@@ -174,13 +174,15 @@ export default function Logbook({ title, entries, extraDetailsByMonth = {}, extr
                                             gap: "20px",
                                         }}
                                     >
-                                        {groupedByMonth[month][date].map((entry) => (
-                                            <li key={entry.id}>
-                                                <Link to={`${currentPath}/${entry.id}`} style={{ textDecoration: "none" }} >
-                                                    {renderEntry(entry)}
-                                                </Link>
-                                            </li>
-                                        ))}
+                                        {[...groupedByMonth[month][date]]
+                                            .sort((a, b) => b.id - a.id)
+                                            .map((entry) => (
+                                                <li key={entry.id}>
+                                                    <Link to={`${currentPath}/${entry.id}`} style={{ textDecoration: "none" }} >
+                                                        {renderEntry(entry)}
+                                                    </Link>
+                                                </li>
+                                            ))}
                                     </ul>
                                 </div>
 

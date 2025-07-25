@@ -29,6 +29,7 @@ public class FinanceEntry {
     @NotNull
     private FinancialCategory category;
     @Column(nullable = false)
+    @NotNull
     private Double amount;
     @Column(name = "payment_method")
     @Enumerated(EnumType.STRING)

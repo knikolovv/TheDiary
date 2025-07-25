@@ -13,7 +13,6 @@ export default function Finances() {
                 }
                 const data = await response.json();
                 setFinanceEntries(data);
-                console.error(data)
             } catch (error) {
                 console.error("Could not fetch finances entries", error);
             }

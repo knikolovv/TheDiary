@@ -33,6 +33,13 @@ public class FinanceController {
         return ResponseEntity.ok(financeEntries);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<FinanceEntry> updateFinanceEntry(@PathVariable Long id,
+                                                           @RequestBody FinanceEntry financeEntry) {
+        FinanceEntry updatedFinanceEntry = financeService.updateFinanceEntry(id, financeEntry);
+        return ResponseEntity.ok(updatedFinanceEntry);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFinanceEntryById(@PathVariable Long id) {
         if (financeService.getFinanceEntryById(id) == null) {
