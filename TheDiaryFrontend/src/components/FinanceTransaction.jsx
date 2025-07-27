@@ -73,12 +73,12 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
             border: "1px solid black",
             width: "50vw",
             marginTop: 32,
-            minWidth: "500px",
+            minWidth: "550px",
             minHeight: "50vh",
             justifySelf: "center",
             borderRadius: 10,
             backgroundColor: "#706f6fff",
-            padding: 24,
+            paddingBottom:24
         }}>
             <style>
                 {`
@@ -185,7 +185,7 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                         display: "flex",
                         alignItems: "center",
                         gap: 12,
-                        gridColumn: '2',
+                        gridColumn: "2",
                     }}>
                         <span>Payment Method:</span>
                         <label style={{ display: "flex", gap: 4 }}>
@@ -243,7 +243,7 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                         fontSize: 16,
                         resize: "none",
                         width: "50%",
-                        height: '100%',
+                        height: "100%",
                         gridColumn: "1 / span 2",
                         outline: "none",
                     }}

@@ -1,13 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
 import CreateNote from "./pages/CreateNote";
 import NotesGrid from "./pages/NotesGrid";
-import Layout from "./components/Layout";
 import Note from "./pages/Note";
 import Calendar from "./pages/Calendar";
 import Finances from "./pages/Finances";
 import LogFinanceTransaction from "./pages/LogFinanceTranscation";
-import Nutrition from "./pages/Nutrition";
 import ViewFinanceTransaction from "./pages/ViewFinanceTransaction";
+import Nutrition from "./pages/Nutrition";
+import LogNutrition from "./pages/LogNutrition";
 
 function App() {
   return (
@@ -18,10 +19,11 @@ function App() {
           <Route path="/notes" element={<NotesGrid />} />
           <Route path="/note/:id" element={<Note />} />
           <Route path="/calendar" element={<Calendar />} />
-          <Route path="/nutrition" element={<Nutrition />} />
           <Route path="/finances" element={<Finances />} />
           <Route path="/finances/create" element={<LogFinanceTransaction />} />
           <Route path="/finances/:id" element={<ViewFinanceTransaction />} />
+          <Route path="/nutrition" element={<Nutrition />} />
+          <Route path="/nutrition/create" element={<LogNutrition />} />
         </Routes>
       </Layout>
     </Router>

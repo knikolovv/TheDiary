@@ -53,7 +53,7 @@ export default function Logbook({ title, entries, extraDetailsByMonth = {}, extr
                 {title}
             </div>
             {sortedMonths.length === 0 && (
-                <div style={{ textAlign: 'center', marginTop: 20, fontSize: 20 }}>
+                <div style={{ textAlign: "center", marginTop: 20, fontSize: 20 }}>
                     No entries yet.
                 </div>
             )}

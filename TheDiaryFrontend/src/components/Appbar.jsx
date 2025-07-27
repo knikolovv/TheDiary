@@ -19,6 +19,9 @@ export default function Appbar({ onMenuClick, sideAppBarOpen, pageTitle }) {
     ],
     "/finance": [
       { label: "Log Transaction", path: "/finances/create" },
+    ],
+    "/nutrition": [
+      { label: "Log Nutrition", path: "/nutrition/create" }
     ]
   }
 
@@ -32,7 +35,7 @@ export default function Appbar({ onMenuClick, sideAppBarOpen, pageTitle }) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar sx={{ position: "fixed", backgroundColor: "#5D7FA3" }}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", alignItems: "center"}}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton
               size="large"
               edge="start"
@@ -49,7 +52,7 @@ export default function Appbar({ onMenuClick, sideAppBarOpen, pageTitle }) {
 
           {actions && (
             <Box sx={{
-              pr:18,
+              pr: 18,
               gap: 1,
               color: "rgb(0,0,0)",
               transition: "margin 0.3s",
