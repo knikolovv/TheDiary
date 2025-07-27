@@ -36,18 +36,36 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
         "TRAVEL", "WELLNESS", "OTHER",
     ];
 
-    const buttonStyle = {
-        marginTop: 24,
-        backgroundColor: "rgba(56, 53, 53, 1)",
-        color: "#fff",
-        border: "none",
-        borderRadius: 6,
-        padding: "12px 24px",
-        fontSize: 16,
-        cursor: "pointer",
-        transition: "background-color 0.3s ease",
-        marginLeft: 5,
-        marginRight: 5,
+    function StyledButton({ children, onClick, type = "button" }) {
+        const buttonStyle = {
+            marginTop: 24,
+            backgroundColor: "rgba(56, 53, 53, 1)",
+            color: "#fff",
+            border: "none",
+            borderRadius: 6,
+            padding: "12px 24px",
+            fontSize: 16,
+            cursor: "pointer",
+            transition: "background-color 0.3s ease",
+            marginLeft: 5,
+            marginRight: 5,
+        };
+
+        return (
+            <button
+                type={type}
+                onClick={onClick}
+                style={buttonStyle}
+                onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "rgba(39, 35, 35, 1)";
+                }}
+                onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "rgba(56, 53, 53, 1)";
+                }}
+            >
+                {children}
+            </button>
+        );
     }
 
     return (
@@ -231,48 +249,25 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                     }}
                 />
                 <div style={{ gridColumn: "1 / span 2" }}>
-                    <button
+                    <StyledButton
                         onClick={() => {
                             navigate("/finances")
-                        }}
-                        style={buttonStyle}
-                        onMouseOver={(e) => {
-                            e.target.style.backgroundColor = "rgba(39, 35, 35, 1)";
-                        }}
-                        onMouseOut={(e) => {
-                            e.target.style.backgroundColor = "rgba(56, 53, 53, 1)";
                         }}>
                         Cancel
-                    </button>
+                    </StyledButton>
                     {isViewMode && (
                         <>
-                            <button
-                                onClick={() => setMode("edit")}
-                                style={buttonStyle}
-                                onMouseOver={(e) => {
-                                    e.target.style.backgroundColor = "rgba(39, 35, 35, 1)";
-                                }}
-                                onMouseOut={(e) => {
-                                    e.target.style.backgroundColor = "rgba(56, 53, 53, 1)";
-                                }}>
+                            <StyledButton onClick={() => setMode("edit")}>
                                 Edit
-                            </button>
+                            </StyledButton>
 
-                            <button
-                                onClick={() => handleDelete(entryData.id)}
-                                style={buttonStyle}
-                                onMouseOver={(e) => {
-                                    e.target.style.backgroundColor = "rgba(39, 35, 35, 1)";
-                                }}
-                                onMouseOut={(e) => {
-                                    e.target.style.backgroundColor = "rgba(56, 53, 53, 1)";
-                                }}>
+                            <StyledButton onClick={() => handleDelete(entryData.id)}>
                                 Delete
-                            </button>
+                            </StyledButton>
                         </>
                     )}
                     {isEditMode &&
-                        <button
+                        <StyledButton
                             onClick={async () => {
                                 await handleEdit({
                                     id: entryData.id,
@@ -284,36 +279,23 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                                     description
                                 });
                                 setMode("view");
-                            }}
-                            style={buttonStyle}
-                            onMouseOver={(e) => {
-                                e.target.style.backgroundColor = "rgba(39, 35, 35, 1)";
-                            }}
-                            onMouseOut={(e) => {
-                                e.target.style.backgroundColor = "rgba(56, 53, 53, 1)";
                             }}>
                             Save
-                        </button>
+                        </StyledButton>
                     }
-                    {isCreateMode && <button
-                        type="submit"
-                        onClick={() => handleCreate({
-                            counterparty,
-                            category,
-                            amount: parseFloat(amount),
-                            paymentMethod,
-                            date,
-                            description
-                        })}
-                        style={buttonStyle}
-                        onMouseOver={(e) => {
-                            e.target.style.backgroundColor = "rgba(39, 35, 35, 1)";
-                        }}
-                        onMouseOut={(e) => {
-                            e.target.style.backgroundColor = "rgba(56, 53, 53, 1)";
-                        }}>
-                        Create
-                    </button>
+                    {isCreateMode &&
+                        <StyledButton
+                            type="submit"
+                            onClick={() => handleCreate({
+                                counterparty,
+                                category,
+                                amount: parseFloat(amount),
+                                paymentMethod,
+                                date,
+                                description
+                            })}>
+                            Create
+                        </StyledButton>
                     }
                 </div>
             </div>
