@@ -8,7 +8,7 @@ import Finances from "./pages/Finances";
 import LogFinanceTransaction from "./pages/LogFinanceTranscation";
 import ViewFinanceTransaction from "./pages/ViewFinanceTransaction";
 import Nutrition from "./pages/Nutrition";
-import LogNutrition from "./pages/LogNutrition";
+import LogFood from "./pages/LogFood";
 
 function App() {
   return (
@@ -20,10 +20,10 @@ function App() {
           <Route path="/note/:id" element={<Note />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/finances" element={<Finances />} />
-          <Route path="/finances/create" element={<LogFinanceTransaction />} />
+          <Route path="/finances/log-transaction" element={<LogFinanceTransaction />} />
           <Route path="/finances/:id" element={<ViewFinanceTransaction />} />
           <Route path="/nutrition" element={<Nutrition />} />
-          <Route path="/nutrition/create" element={<LogNutrition />} />
+          <Route path="/nutrition/log-food" element={<LogFood />} />
         </Routes>
       </Layout>
     </Router>

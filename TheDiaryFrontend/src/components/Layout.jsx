@@ -29,7 +29,7 @@ export default function Layout({ children }) {
     <div style={{
       height: "100vh",
     }}>
-      <Appbar onMenuClick={toggleSideAppBar} sideAppBarOpen={sideAppBarOpen} sideAppBarWidth={`${sideAppBarWidth}px`} pageTitle={pageTitle} />
+      <Appbar onMenuClick={toggleSideAppBar} sideAppBarOpen={sideAppBarOpen} pageTitle={pageTitle} />
       <SideAppBar open={sideAppBarOpen} />
 
       <Box

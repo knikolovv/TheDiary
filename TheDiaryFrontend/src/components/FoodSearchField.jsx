@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function FoodSearchField({ onSelect }) {
+export default function FoodSearchField({ onSelect, searchFieldStyle }) {
     const [term, setTerm] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [debounceTimer, setDebounceTimer] = useState(null);
@@ -30,6 +30,7 @@ export default function FoodSearchField({ onSelect }) {
                     }
                 );
                 const data = await res.json();
+                console.log(data);
                 setSuggestions(data.products || []);
             } catch (err) {
                 console.error("Error fetching products", err);
@@ -47,11 +48,7 @@ export default function FoodSearchField({ onSelect }) {
                 value={term}
                 onChange={(e) => setTerm(e.target.value)}
                 placeholder="Type a food name..."
-                style={{
-                    width: "100%",
-                    padding: "8px",
-                    boxSizing: "border-box"
-                }}
+                style={searchFieldStyle}
             />
             {suggestions.length > 0 && (
                 <ul

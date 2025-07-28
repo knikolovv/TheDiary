@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -7,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import PinButton from "../components/PinButton";
+import StyledButton from "../components/StyledButton";
 
 export default function Note() {
     const { id } = useParams();
@@ -208,7 +208,7 @@ export default function Note() {
                                 }}
                             />
                             {isEditing && (
-                                <Button
+                                <StyledButton
                                     onClick={() => handleDeleteImage(img.id)}
                                     sx={{
                                         position: "absolute",
@@ -226,7 +226,7 @@ export default function Note() {
                                     }}
                                 >
                                     ×
-                                </Button>
+                                </StyledButton>
                             )}
                         </Box>
                     ))}
@@ -236,23 +236,23 @@ export default function Note() {
                     display: "flex",
                     mb: 3,
                 }}>
-                    {title && <Box sx={{ flexGrow: 1, display: "flex", gap: 2, mt: 2 }}>
+                    {title && <Box sx={{ flexGrow: 1, display: "flex", mt: 2 }}>
                         {isEditing ? (
                             <>
-                                <Button variant="contained" onClick={handleSaveEdit}>Save</Button>
-                                <Button variant="outlined" onClick={() => setIsEditing(false)}>Cancel</Button>
+                                <StyledButton onClick={handleSaveEdit}>Save</StyledButton>
+                                <StyledButton onClick={() => setIsEditing(false)}>Cancel</StyledButton>
                             </>
                         ) : (
                             <>
-                                <Button variant="outlined" onClick={() => {
+                                <StyledButton onClick={() => {
                                     setEditedTitle(title);
                                     setEditedDescription(description);
                                     setEditedPinned(pinned);
                                     setIsEditing(true);
-                                }}>Edit</Button>
-                                <Button variant="contained" onClick={handleDelete}>
+                                }}>Edit</StyledButton>
+                                <StyledButton variant="contained" onClick={handleDelete}>
                                     Delete
-                                </Button>
+                                </StyledButton>
                             </>
                         )}
                     </Box>}

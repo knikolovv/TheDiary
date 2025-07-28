@@ -7,7 +7,9 @@ export default function Finances() {
     useEffect(() => {
         const fetchFinanceEntries = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/finance`);
+                const response = await fetch(`http://localhost:8080/finance`, {
+                    method: "GET"
+                });
                 if (!response.ok) {
                     throw new Error("Could not fetch finance entries")
                 }

@@ -18,23 +18,23 @@ export default function Appbar({ onMenuClick, sideAppBarOpen, pageTitle }) {
       { label: "Create New Note", path: "/notes/create" },
     ],
     "/finance": [
-      { label: "Log Transaction", path: "/finances/create" },
+      { label: "Log Transaction", path: "/finances/log-transaction" },
     ],
     "/nutrition": [
-      { label: "Log Nutrition", path: "/nutrition/create" }
+      { label: "Log Meal", path: "/nutrition/log-meal" },
+      { label: "Log Food", path: "/nutrition/log-food" }
     ]
-  }
+  };
 
-  const currentPath = location.pathname;
-  const currentPage = Object.keys(subPages).find((perfix) =>
-    currentPath.startsWith(perfix)
+  const currentPath = Object.keys(subPages).find((prefix) =>
+    location.pathname.startsWith(prefix)
   );
-  const actions = currentPage ? subPages[currentPage] : null;
+  const actions = currentPath ? subPages[currentPath] : null;
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1}}>
       <AppBar sx={{ position: "fixed", backgroundColor: "#5D7FA3" }}>
-        <Toolbar sx={{ justifyContent: "space-between" }}>
+        <Toolbar sx={{ position: "relative" }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton
               size="large"
@@ -43,37 +43,37 @@ export default function Appbar({ onMenuClick, sideAppBarOpen, pageTitle }) {
               sx={{ mr: 2 }}
               onClick={onMenuClick}
             >
-              <MenuIcon></MenuIcon>
+              <MenuIcon />
             </IconButton>
-            <Typography variant="h6" component="div" color="rgb(0,0,0)">
-              {pageTitle}
+            <Typography variant="h6" color="rgb(0,0,0)">
+              {pageTitle === "The Diary" ? "The Diary" : `The Diary - ${pageTitle}`}
             </Typography>
           </Box>
-
           {actions && (
-            <Box sx={{
-              pr: 18,
-              gap: 1,
-              color: "rgb(0,0,0)",
-              transition: "margin 0.3s",
-              marginLeft: sideAppBarOpen ? `${sideAppBarWidth}px` : 0,
-            }}>
+            <Box
+              sx={{
+                justifyContent: "center",
+                position: "absolute",
+                transform: "translateX(-50%)",
+                display: "flex",
+                gap: 2,
+                transition: "left 0.3s",
+                left: sideAppBarOpen
+                  ? `calc(50% + ${sideAppBarWidth / 2}px)`
+                  : "50%",
+              }}
+            >
               {actions.map((action) => (
                 <Button
                   key={action.label}
-                  color="rgb(0,0,0)"
-                  onClick={() => {
-                    if (action.path) {
-                      navigate(action.path);
-                    }
-                  }}
+                  sx={{ color: "rgb(0,0,0)" }}
+                  onClick={() => navigate(action.path)}
                 >
                   {action.label}
                 </Button>
               ))}
             </Box>
           )}
-          <Box />
         </Toolbar>
       </AppBar>
     </Box>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import StyledButton from "./StyledButton";
 
 export default function FinanceTransaction({ componentMode, entryData = null, handleCreate, handleEdit, handleDelete }) {
     const today = new Date().toISOString().split("T")[0];
@@ -7,21 +8,10 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
     const [category, setCategory] = useState(entryData?.category || "");
     const [date, setDate] = useState(entryData?.date || today);
     const [counterparty, setCounterparty] = useState(entryData?.counterparty || "");
-    const [amount, setAmount] = useState(entryData?.amount ?? 0);
+    const [amount, setAmount] = useState(entryData?.amount ?? "");
     const [paymentMethod, setPaymentMethod] = useState(entryData?.paymentMethod || "CARD");
     const [description, setDescription] = useState(entryData?.description || "");
     const [mode, setMode] = useState(componentMode);
-
-    useEffect(() => {
-        if (entryData) {
-            setCategory(entryData.category || "");
-            setDate(entryData.date || today);
-            setCounterparty(entryData.counterparty || "");
-            setAmount(entryData.amount ?? "");
-            setPaymentMethod(entryData.paymentMethod || "CARD");
-            setDescription(entryData.description || "");
-        }
-    }, [entryData, today]);
 
     const navigate = useNavigate();
 
@@ -36,37 +26,28 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
         "TRAVEL", "WELLNESS", "OTHER",
     ];
 
-    function StyledButton({ children, onClick, type = "button" }) {
-        const buttonStyle = {
-            marginTop: 24,
-            backgroundColor: "rgba(56, 53, 53, 1)",
-            color: "#fff",
-            border: "none",
-            borderRadius: 6,
-            padding: "12px 24px",
-            fontSize: 16,
-            cursor: "pointer",
-            transition: "background-color 0.3s ease",
-            marginLeft: 5,
-            marginRight: 5,
-        };
+    const inputFieldStyle = (extraStyle = {}) => ({
+        backgroundColor: "transparent",
+        border: "1px solid black",
+        borderRadius: 4,
+        padding: "12px 16px",
+        color: "black",
+        fontSize: 16,
+        outline: "none",
+        width: "50%",
+        ...extraStyle,
+    });
 
-        return (
-            <button
-                type={type}
-                onClick={onClick}
-                style={buttonStyle}
-                onMouseOver={(e) => {
-                    e.target.style.backgroundColor = "rgba(39, 35, 35, 1)";
-                }}
-                onMouseOut={(e) => {
-                    e.target.style.backgroundColor = "rgba(56, 53, 53, 1)";
-                }}
-            >
-                {children}
-            </button>
-        );
-    }
+    useEffect(() => {
+        if (entryData) {
+            setCategory(entryData.category || "");
+            setDate(entryData.date || today);
+            setCounterparty(entryData.counterparty || "");
+            setAmount(entryData.amount ?? "");
+            setPaymentMethod(entryData.paymentMethod || "CARD");
+            setDescription(entryData.description || "");
+        }
+    }, [entryData, today]);
 
     return (
         <div style={{
@@ -78,7 +59,7 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
             justifySelf: "center",
             borderRadius: 10,
             backgroundColor: "#706f6fff",
-            paddingBottom:24
+            paddingBottom: 24
         }}>
             <style>
                 {`
@@ -117,7 +98,7 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                     gap: "24px",
                     width: "80%",
                     justifySelf: "center",
-                    justifyItems: "center"
+                    justifyItems: "center",
                 }}
             >
                 <input
@@ -126,30 +107,15 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                     value={counterparty}
                     onChange={(e) => setCounterparty(e.target.value)}
                     className="custom-input"
-                    style={{
-                        backgroundColor: "transparent",
-                        border: "1px solid black",
-                        borderRadius: 4,
-                        padding: "12px 16px",
-                        color: "black",
-                        fontSize: 16,
-                        outline: "none",
-                        width: "50%",
-                    }}
+                    style={
+                        inputFieldStyle()
+                    }
                 />
                 <select
                     disabled={isReadOnly}
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    style={{
-                        padding: "12px 16px",
-                        fontSize: 16,
-                        backgroundColor: "transparent",
-                        border: "1px solid black",
-                        borderRadius: 4,
-                        width: "50%",
-                        color: "black",
-                    }}
+                    style={inputFieldStyle()}
                 >
                     <option value="">Choose category</option>
                     {categories.map((category) => (
@@ -165,19 +131,12 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                     placeholder="Amount"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
-                    style={{
-                        backgroundColor: "transparent",
-                        border: "1px solid black",
-                        borderRadius: 4,
-                        padding: "12px 16px",
-                        color: "black",
-                        fontSize: 16,
-                        outline: "none",
-                        width: "50%",
-                    }}
+                    style={
+                        inputFieldStyle()
+                    }
                 />
                 {isReadOnly ? (
-                    <div style={{ fontSize: 16, gridColumn: "2" }}>
+                    <div style={{ fontSize: 16 }}>
                         <span>Payment Method: <strong>{paymentMethod}</strong></span>
                     </div>
                 ) : (
@@ -185,7 +144,6 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                         display: "flex",
                         alignItems: "center",
                         gap: 12,
-                        gridColumn: "2",
                     }}>
                         <span>Payment Method:</span>
                         <label style={{ display: "flex", gap: 4 }}>
@@ -215,16 +173,9 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    style={{
-                        padding: "12px 16px",
-                        fontSize: 16,
-                        backgroundColor: "transparent",
-                        border: "1px solid black",
-                        borderRadius: 4,
-                        width: "50%",
-                        color: "black",
-                        outline: "none",
-                    }}
+                    style={
+                        inputFieldStyle()
+                    }
                 />
                 <textarea
                     disabled={isReadOnly}
@@ -233,35 +184,35 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                     onChange={(e) => setDescription(e.target.value)}
                     className="custom-input"
                     rows={7}
-                    style={{
-                        backgroundColor: "transparent",
-                        border: "1px solid black",
-                        borderRadius: 4,
-                        rows: 10,
-                        padding: "12px 16px",
-                        color: "black",
-                        fontSize: 16,
-                        resize: "none",
-                        width: "50%",
-                        height: "100%",
-                        gridColumn: "1 / span 2",
-                        outline: "none",
-                    }}
+                    style={
+                        inputFieldStyle({
+                            rows: 10,
+                            resize: "none",
+                            width: "50%",
+                            height: "100%",
+                            gridColumn: "1 / span 2",
+                        })
+                    }
                 />
                 <div style={{ gridColumn: "1 / span 2" }}>
                     <StyledButton
                         onClick={() => {
                             navigate("/finances")
-                        }}>
+                        }}
+                    >
                         Cancel
                     </StyledButton>
                     {isViewMode && (
                         <>
-                            <StyledButton onClick={() => setMode("edit")}>
+                            <StyledButton
+                                onClick={() => setMode("edit")}
+                            >
                                 Edit
                             </StyledButton>
 
-                            <StyledButton onClick={() => handleDelete(entryData.id)}>
+                            <StyledButton
+                                onClick={() => handleDelete(entryData.id)}
+                            >
                                 Delete
                             </StyledButton>
                         </>
@@ -279,7 +230,8 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                                     description
                                 });
                                 setMode("view");
-                            }}>
+                            }}
+                        >
                             Save
                         </StyledButton>
                     }
@@ -293,7 +245,8 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                                 paymentMethod,
                                 date,
                                 description
-                            })}>
+                            })}
+                        >
                             Create
                         </StyledButton>
                     }

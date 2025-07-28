@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PinButton from "../components/PinButton";
+import StyledButton from "../components/StyledButton";
 
 export default function CreateNote() {
     const [title, setTitle] = useState("");
@@ -195,18 +196,16 @@ export default function CreateNote() {
                     display: "flex",
                     mb: 3,
                 }}>
-                    <Box sx={{ display: "flex", gap: 2 }}>
-                        <label htmlFor="upload-images">
-                            <Button variant="outlined" component="span">
-                                Upload Images
-                            </Button>
-                        </label>
-                        <Button type="submit" variant="contained">
+                    <Box>
+                        <StyledButton asLabel htmlFor="upload-images">
+                            Upload images
+                        </StyledButton>
+                        <StyledButton type="submit">
                             Create
-                        </Button>
+                        </StyledButton>
                     </Box>
                 </Box>
             </Box>
-        </Box>
+        </Box >
     );
 }

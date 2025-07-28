@@ -1,5 +1,4 @@
 package com.example.TheDiary.model;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,16 +10,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class FoodEntry {
+public class MealFood {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "meal_id")
+    private Meal meal;
+
+    @ManyToOne
+    @JoinColumn(name = "food_id")
+    private FoodEntry foodEntry;
+
     @Column(nullable = false)
-    private String foodName;
-    private Double foodCaloriesPer100g;
-    private Double carbohydrates;
-    private Double proteins;
-    private Double fats;
-    private Double saturatedFats;
+    private Double servingSize;
 }
