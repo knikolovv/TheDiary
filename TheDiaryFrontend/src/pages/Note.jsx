@@ -208,25 +208,28 @@ export default function Note() {
                                 }}
                             />
                             {isEditing && (
-                                <StyledButton
+                                <button
                                     onClick={() => handleDeleteImage(img.id)}
-                                    sx={{
+                                    style={{
                                         position: "absolute",
-                                        top: 2,
-                                        right: 2,
+                                        top: "2px",
+                                        right: "2px",
                                         minWidth: "15px",
                                         height: "15px",
                                         padding: 0,
                                         color: "white",
                                         backgroundColor: "rgba(0,0,0,0.6)",
-                                        "&:hover": {
-                                            backgroundColor: "rgba(0,0,0,0.8)",
-                                        },
+                                        border: "none",
+                                        cursor: "pointer",
                                         borderRadius: "50%",
+                                        fontWeight: "bold",
+                                        fontSize: "12px",
                                     }}
+                                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.8)")}
+                                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.6)")}
                                 >
                                     ×
-                                </StyledButton>
+                                </button>
                             )}
                         </Box>
                     ))}

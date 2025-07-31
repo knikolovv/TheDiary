@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useLocation, useNavigate } from "react-router-dom";
 import { sideAppBarWidth } from "./SideAppBar";
+import { Link } from "react-router-dom";
 
 export default function Appbar({ onMenuClick, sideAppBarOpen, pageTitle }) {
   const location = useLocation();
@@ -14,7 +15,6 @@ export default function Appbar({ onMenuClick, sideAppBarOpen, pageTitle }) {
 
   const subPages = {
     "/note": [
-      { label: "All Notes", path: "/notes" },
       { label: "Create New Note", path: "/notes/create" },
     ],
     "/finance": [
@@ -32,7 +32,7 @@ export default function Appbar({ onMenuClick, sideAppBarOpen, pageTitle }) {
   const actions = currentPath ? subPages[currentPath] : null;
 
   return (
-    <Box sx={{ flexGrow: 1}}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar sx={{ position: "fixed", backgroundColor: "#5D7FA3" }}>
         <Toolbar sx={{ position: "relative" }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -46,7 +46,12 @@ export default function Appbar({ onMenuClick, sideAppBarOpen, pageTitle }) {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="rgb(0,0,0)">
-              {pageTitle === "The Diary" ? "The Diary" : `The Diary - ${pageTitle}`}
+              <Link
+                to={`/${pageTitle.charAt(0).toLowerCase() + pageTitle.slice(1)}`} 
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                {pageTitle === "The Diary" ? "The Diary" : `The Diary - ${pageTitle}`}
+              </Link>
             </Typography>
           </Box>
           {actions && (

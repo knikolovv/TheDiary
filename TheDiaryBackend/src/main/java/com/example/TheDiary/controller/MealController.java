@@ -21,10 +21,9 @@ public class MealController {
         return mealService.findAllMeals();
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public Meal createMeal(Meal meal) {
         return mealService.saveMeal(meal);
     }
-
 
 }

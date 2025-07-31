@@ -1,6 +1,7 @@
 package com.example.TheDiary.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ public class FoodEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotBlank(message = "Food name must not be blank")
     private String foodName;
     private Double foodCaloriesPer100g;
     private Double carbohydrates;

@@ -12,6 +12,7 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
     const [paymentMethod, setPaymentMethod] = useState(entryData?.paymentMethod || "CARD");
     const [description, setDescription] = useState(entryData?.description || "");
     const [mode, setMode] = useState(componentMode);
+    const [errors, setErrors] = useState({});
 
     const navigate = useNavigate();
 
@@ -48,6 +49,23 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
             setDescription(entryData.description || "");
         }
     }, [entryData, today]);
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!counterparty.trim()) {
+            newErrors.counterparty = "Counterparty must not be blank";
+        }
+        if (!category) {
+            newErrors.category = "Category is required";
+        }
+        if (!amount) {
+            newErrors.amount = "Amount can not be empty"
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     return (
         <div style={{
@@ -101,40 +119,59 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                     justifyItems: "center",
                 }}
             >
-                <input
-                    disabled={isReadOnly}
-                    placeholder="Counterparty"
-                    value={counterparty}
-                    onChange={(e) => setCounterparty(e.target.value)}
-                    className="custom-input"
-                    style={
-                        inputFieldStyle()
-                    }
-                />
-                <select
-                    disabled={isReadOnly}
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    style={inputFieldStyle()}
-                >
-                    <option value="">Choose category</option>
-                    {categories.map((category) => (
-                        <option key={category} value={category}>
-                            {category.charAt(0) + category.slice(1).toLowerCase()}
-                        </option>
-                    ))}
-                </select>
-                <input
-                    type="number"
-                    className="no-spinner custom-input"
-                    disabled={isReadOnly}
-                    placeholder="Amount"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    style={
-                        inputFieldStyle()
-                    }
-                />
+                <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <input
+                        disabled={isReadOnly}
+                        placeholder="Counterparty*"
+                        value={counterparty}
+                        onChange={(e) => setCounterparty(e.target.value)}
+                        className="custom-input"
+                        style={inputFieldStyle()}
+                    />
+                    {errors.counterparty && (
+                        <span style={{ color: "red", fontSize: "14px", marginTop: "4px" }}>
+                            {errors.counterparty}
+                        </span>
+                    )}
+                </div>
+                <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <select
+                        disabled={isReadOnly}
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        style={inputFieldStyle()}
+                    >
+                        <option value="">Choose category*</option>
+                        {categories.map((category) => (
+                            <option key={category} value={category}>
+                                {category.charAt(0) + category.slice(1).toLowerCase()}
+                            </option>
+                        ))}
+                    </select>
+                    {errors.category && (
+                        <span style={{ color: "red", fontSize: "14px", marginTop: "4px" }}>
+                            {errors.category}
+                        </span>
+                    )}
+                </div>
+                <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <input
+                        type="number"
+                        className="no-spinner custom-input"
+                        disabled={isReadOnly}
+                        placeholder="Amount*"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                        style={
+                            inputFieldStyle()
+                        }
+                    />
+                    {errors.amount && (
+                        <span style={{ color: "red", fontSize: "14px", marginTop: "4px" }}>
+                            {errors.amount}
+                        </span>
+                    )}
+                </div>
                 {isReadOnly ? (
                     <div style={{ fontSize: 16 }}>
                         <span>Payment Method: <strong>{paymentMethod}</strong></span>
@@ -165,6 +202,16 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                                 onChange={(e) => setPaymentMethod(e.target.value)}
                             />
                             Cash
+                        </label>
+                        <label style={{ display: "flex", gap: 4 }}>
+                            <input
+                                type="radio"
+                                name="paymentMethod"
+                                value="CRYPTO"
+                                checked={paymentMethod === "CRYPTO"}
+                                onChange={(e) => setPaymentMethod(e.target.value)}
+                            />
+                            Crypto
                         </label>
                     </div>
                 )}
@@ -220,6 +267,7 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                     {isEditMode &&
                         <StyledButton
                             onClick={async () => {
+                                if (!validateForm()) return;
                                 await handleEdit({
                                     id: entryData.id,
                                     counterparty,
@@ -238,14 +286,17 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                     {isCreateMode &&
                         <StyledButton
                             type="submit"
-                            onClick={() => handleCreate({
-                                counterparty,
-                                category,
-                                amount: parseFloat(amount),
-                                paymentMethod,
-                                date,
-                                description
-                            })}
+                            onClick={() => {
+                                if (!validateForm()) return;
+                                handleCreate({
+                                    counterparty,
+                                    category,
+                                    amount: parseFloat(amount),
+                                    paymentMethod,
+                                    date,
+                                    description
+                                });
+                            }}
                         >
                             Create
                         </StyledButton>

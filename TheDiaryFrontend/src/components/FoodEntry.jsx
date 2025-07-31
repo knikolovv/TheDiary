@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FoodSearchField from "./FoodSearchField";
-import { useNavigate } from "react-router-dom";
 import StyledButton from "./StyledButton";
+import { useNavigate } from "react-router-dom";
 
-export default function FoodEntry(onCreate) {
-    const [foodName, setFoodName] = useState()
-    const [calories, setCalories] = useState();
-    const [carbohydrates, setCarbohydrates] = useState();
-    const [protein, setProtein] = useState();
-    const [fats, setFats] = useState();
-    const [saturatedFats, setSaturatedFats] = useState();
+export default function FoodEntry({ onCreate, clearFieldsTrigger }) {
+    const [foodName, setFoodName] = useState("")
+    const [calories, setCalories] = useState("");
+    const [carbohydrates, setCarbohydrates] = useState("");
+    const [proteins, setProteins] = useState("");
+    const [fats, setFats] = useState("");
+    const [saturatedFats, setSaturatedFats] = useState("");
     const [isReadOnly, setIsReadOnly] = useState(false);
 
     const navigate = useNavigate();
@@ -24,6 +24,24 @@ export default function FoodEntry(onCreate) {
         outline: "none",
         ...extraStyle,
     });
+
+    const setFieldsOnSearchSelect = (item) => {
+        setFoodName(item.product_name || "");
+        setCalories(item.nutriments["energy-kcal_100g"] || "");
+        setCarbohydrates(item.nutriments.carbohydrates_100g || "");
+        setProteins(item.nutriments.proteins_100g || "");
+        setFats(item.nutriments.fat_100g || "");
+        setSaturatedFats(item.nutriments["saturated-fat_100g"] || "");
+    };
+
+    useEffect(() => {
+        setFoodName("");
+        setCalories("");
+        setCarbohydrates("");
+        setProteins("");
+        setFats("");
+        setSaturatedFats("");
+    }, [clearFieldsTrigger]);
 
     return (
         <div style={{
@@ -53,14 +71,29 @@ export default function FoodEntry(onCreate) {
                 justifyItems: "center",
                 textAlign: "center",
             }}>
-                <text style={{ fontSize: "24px" }}>Search for food through Open Food Facts</text>
-                <br></br>
-                <text style={{color:"rgba(70, 63, 63, 1)"}}>It takes a bit of time</text>
+                <span style={{ fontSize: "24px" }}>
+                    Search for food through{" "}
+                    <a
+                        href="https://world.openfoodfacts.org/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                            textDecoration: "none",
+                            color: "blue",
+                        }}
+                    >
+                        Open Food Facts
+                    </a>
+                </span>
+                <span style={{ display: "block", color: "rgba(70, 63, 63, 1)" }}>
+                    It takes a bit of time
+                </span>
                 <div style={{ gridColumn: "1 / span 2", margin: 24 }}>
 
-                    <FoodSearchField searchFieldStyle={inputFieldStyle()} />
+                    <FoodSearchField onSelect={(item) => setFieldsOnSearchSelect(item)} searchFieldStyle={inputFieldStyle()} />
                 </div>
-                <text style={{ fontSize: "24px" }}>or type it manually</text>
+                <span style={{ display: "block", fontSize: "24px" }}>or type it manually</span>
+
                 <div style={{
                     margin: 24,
                     display: "grid",
@@ -72,12 +105,14 @@ export default function FoodEntry(onCreate) {
                     <input
                         disabled={isReadOnly}
                         value={foodName}
+                        onChange={(e) => setFoodName(e.target.value)}
                         placeholder="Food name"
                         style={inputFieldStyle({ width: "50%" })}
                     />
                     <input
                         disabled={isReadOnly}
                         value={calories}
+                        onChange={(e) => setCalories(e.target.value)}
                         placeholder="Calories per 100 grams"
                         style={inputFieldStyle({ width: "50%" })}
                     />
@@ -85,23 +120,27 @@ export default function FoodEntry(onCreate) {
                     <input
                         disabled={isReadOnly}
                         value={carbohydrates}
+                        onChange={(e) => setCarbohydrates(e.target.value)}
                         placeholder="Carbohydrates per 100 grams"
                         style={inputFieldStyle({ width: "50%" })}
                     />
                     <input
                         disabled={isReadOnly}
-                        value={protein}
+                        value={proteins}
+                        onChange={(e) => setProteins(e.target.value)}
                         placeholder="Protein per 100 grams"
                         style={inputFieldStyle({ width: "50%" })}
                     />
                     <input
                         disabled={isReadOnly}
                         value={fats}
+                        onChange={(e) => setFats(e.target.value)}
                         placeholder="Fats per 100 grams"
                         style={inputFieldStyle({ width: "50%" })}
                     /><input
                         disabled={isReadOnly}
                         value={saturatedFats}
+                        onChange={(e) => setSaturatedFats(e.target.value)}
                         placeholder="Saturated fats per 100 grams"
                         style={inputFieldStyle({ width: "50%" })}
                     />
@@ -110,11 +149,19 @@ export default function FoodEntry(onCreate) {
                     <StyledButton onClick={() => navigate("/nutrition")}>
                         Cancel
                     </StyledButton>
-                    <StyledButton>
+                    <StyledButton
+                        onClick={() => onCreate({
+                            foodName,
+                            foodCaloriesPer100g: calories,
+                            carbohydrates,
+                            proteins,
+                            fats,
+                            saturatedFats
+                        })}>
                         Save
                     </StyledButton>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
