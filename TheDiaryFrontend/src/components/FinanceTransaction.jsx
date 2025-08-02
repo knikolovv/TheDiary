@@ -76,7 +76,7 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
             minHeight: "50vh",
             justifySelf: "center",
             borderRadius: 10,
-            backgroundColor: "#706f6fff",
+            backgroundColor: "#C6D4E1",
             paddingBottom: 24
         }}>
             <style>

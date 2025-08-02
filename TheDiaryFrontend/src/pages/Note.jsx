@@ -125,7 +125,7 @@ export default function Note() {
                     width: "100%",
                     maxWidth: "700px",
                     position: "relative",
-                    backgroundColor: "#D4Af37"
+                    backgroundColor: "#BDB8AD"
                 }}
             >
                 <PinButton

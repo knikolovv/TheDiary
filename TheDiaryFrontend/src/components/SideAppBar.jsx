@@ -26,7 +26,7 @@ export default function SideAppBar({ open }) {
                     width: sideAppBarWidth,
                     boxSizing: "border-box",
                     top: "64px",
-                    backgroundColor:"#5D7FA3"
+                    backgroundColor:"#EBE7E0"
                 },
             }}
         >

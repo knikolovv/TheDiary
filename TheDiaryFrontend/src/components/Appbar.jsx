@@ -33,7 +33,7 @@ export default function Appbar({ onMenuClick, sideAppBarOpen, pageTitle }) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar sx={{ position: "fixed", backgroundColor: "#5D7FA3" }}>
+      <AppBar sx={{ position: "fixed", backgroundColor: "#EBE7E0" }}>
         <Toolbar sx={{ position: "relative" }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton

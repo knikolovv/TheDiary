@@ -43,7 +43,7 @@ export default function NotesGrid() {
                                     cursor: "pointer",
                                     border: "1px solid rgba(0, 0, 0, 0.2)",
                                     position: "relative",
-                                    backgroundColor: "#c9b05fff",
+                                    backgroundColor: "#BDB8AD",
                                 }}
                             >
                                 <CardContent

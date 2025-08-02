@@ -61,7 +61,7 @@ export default function Finances() {
         >
             <div>
                 <div>{entry.counterparty}</div>
-                <div style={{ fontSize: "0.8em", color: "gray" }}>
+                <div style={{ fontSize: "0.8em", color: "#dbdbdbff" }}>
                     {entry.category.charAt(0) + entry.category.slice(1).toLowerCase()}
                 </div>
             </div>

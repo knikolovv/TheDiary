@@ -1,4 +1,4 @@
-import { Dialog, Button, TextField, Box, Typography, Switch, FormControlLabel } from "@mui/material";
+import { Dialog, TextField, Box, Typography, Switch, FormControlLabel } from "@mui/material";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/de";
@@ -8,6 +8,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateField } from "@mui/x-date-pickers/DateField";
 import { TimeField } from "@mui/x-date-pickers/TimeField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import StyledButton from "./StyledButton";
 
 export default function EventDialog({
     open,
@@ -128,11 +129,11 @@ export default function EventDialog({
                             }}
                         >
                             <Box>
-                                <Button onClick={onClose}>Close</Button>
-                                <Button onClick={() => setMode("edit")}>Edit</Button>
-                                <Button color="error" onClick={() => onDelete?.(eventData?.id)}>Delete</Button>
+                                <StyledButton onClick={onClose}>Close</StyledButton>
+                                <StyledButton onClick={() => setMode("edit")}>Edit</StyledButton>
+                                <StyledButton onClick={() => onDelete?.(eventData?.id)}>Delete</StyledButton>
                             </Box>
-                            <Typography variant="caption" sx={{ color: "gray" }}>
+                            <Typography variant="caption" sx={{ color: "gray", alignSelf: "end", marginLeft: 10 }}>
                                 Created: {eventData?.extendedProps?.createdOn}
                             </Typography>
                         </Box>
@@ -182,8 +183,8 @@ export default function EventDialog({
                             </Box>
                         </LocalizationProvider>
                         <div style={{ marginTop: "16px" }}>
-                            <Button onClick={onClose}>Cancel</Button>
-                            <Button type="submit" variant="contained">Create</Button>
+                            <StyledButton onClick={onClose}>Cancel</StyledButton>
+                            <StyledButton type="submit" >Create</StyledButton>
                         </div>
                     </form>
                 )}

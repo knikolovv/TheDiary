@@ -40,7 +40,7 @@ export default function Logbook({ title, entries, extraDetailsByMonth = {}, extr
                 minHeight: "40vh",
                 justifySelf: "center",
                 borderRadius: 10,
-                backgroundColor: "#4b8367ff",
+                backgroundColor: "#C6D4E1",
             }}
         >
             <div
@@ -93,7 +93,7 @@ export default function Logbook({ title, entries, extraDetailsByMonth = {}, extr
                                     width: "80%",
                                     margin: "0 auto",
                                     borderRadius: 20,
-                                    backgroundColor: "#2A2B2E",
+                                    backgroundColor: "#44749D",
                                     marginTop: 10,
                                 }}
                             >
@@ -161,7 +161,7 @@ export default function Logbook({ title, entries, extraDetailsByMonth = {}, extr
                                         borderRadius: 20,
                                         width: "85%",
                                         margin: "8px auto",
-                                        backgroundColor: "#2A2B2E",
+                                        backgroundColor: "#44749D",
                                     }}
                                 >
                                     <ul
