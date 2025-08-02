@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import StyledField from "./StyledField";
 
-export default function FoodSearchField({ onSelect, searchFieldStyle }) {
+export default function FoodSearchField({ onSelect }) {
     const [term, setTerm] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [debounceTimer, setDebounceTimer] = useState(null);
@@ -42,13 +43,13 @@ export default function FoodSearchField({ onSelect, searchFieldStyle }) {
     }, [term]);
 
     return (
-        <div style={{ position: "relative" }}>
-            <input
+        <div >
+            <StyledField
                 type="text"
                 value={term}
                 onChange={(e) => setTerm(e.target.value)}
                 placeholder="Type a food name..."
-                style={searchFieldStyle}
+                extraStyle={{ width: "100%" }}
             />
             {suggestions.length > 0 && (
                 <ul
@@ -57,8 +58,9 @@ export default function FoodSearchField({ onSelect, searchFieldStyle }) {
                         right: 0,
                         margin: 0,
                         padding: 0,
-                        border: "1px solid #ccc",
+                        border: "1px solid gray",
                         listStyle: "none",
+                        borderRadius: 4,
                     }}
                 >
                     {suggestions.map((item) => (
@@ -72,7 +74,7 @@ export default function FoodSearchField({ onSelect, searchFieldStyle }) {
                             style={{
                                 padding: "8px",
                                 cursor: "pointer",
-                                borderBottom: "1px solid #eee",
+                                borderBottom: "1px solid gray",
                             }}
                         >
                             <div style={{ fontWeight: "bold" }}>

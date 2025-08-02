@@ -2,28 +2,17 @@ import { useEffect, useState } from "react";
 import FoodSearchField from "./FoodSearchField";
 import StyledButton from "./StyledButton";
 import { useNavigate } from "react-router-dom";
+import StyledField from "./StyledField";
 
-export default function FoodEntry({ onCreate, clearFieldsTrigger }) {
+export default function FoodEntry({ onCreate, clearFieldsTrigger, successMessage }) {
     const [foodName, setFoodName] = useState("")
     const [calories, setCalories] = useState("");
     const [carbohydrates, setCarbohydrates] = useState("");
     const [proteins, setProteins] = useState("");
     const [fats, setFats] = useState("");
     const [saturatedFats, setSaturatedFats] = useState("");
-    const [isReadOnly, setIsReadOnly] = useState(false);
 
     const navigate = useNavigate();
-
-    const inputFieldStyle = (extraStyle = {}) => ({
-        backgroundColor: "transparent",
-        border: "1px solid black",
-        borderRadius: 4,
-        padding: "12px 16px",
-        color: "black",
-        fontSize: 16,
-        outline: "none",
-        ...extraStyle,
-    });
 
     const setFieldsOnSearchSelect = (item) => {
         setFoodName(item.product_name || "");
@@ -52,7 +41,7 @@ export default function FoodEntry({ onCreate, clearFieldsTrigger }) {
             minHeight: "50vh",
             justifySelf: "center",
             borderRadius: 10,
-            backgroundColor: "rgba(206, 184, 85, 1)"
+            backgroundColor: "#C6D4E1"
         }}>
             <div style={{
                 textAlign: "center",
@@ -61,9 +50,6 @@ export default function FoodEntry({ onCreate, clearFieldsTrigger }) {
                 marginBottom: 24,
             }}>
                 Log food
-            </div>
-            <div>
-
             </div>
             <div style={{
                 width: "80%",
@@ -90,7 +76,7 @@ export default function FoodEntry({ onCreate, clearFieldsTrigger }) {
                 </span>
                 <div style={{ gridColumn: "1 / span 2", margin: 24 }}>
 
-                    <FoodSearchField onSelect={(item) => setFieldsOnSearchSelect(item)} searchFieldStyle={inputFieldStyle()} />
+                    <FoodSearchField onSelect={(item) => setFieldsOnSearchSelect(item)} />
                 </div>
                 <span style={{ display: "block", fontSize: "24px" }}>or type it manually</span>
 
@@ -102,48 +88,40 @@ export default function FoodEntry({ onCreate, clearFieldsTrigger }) {
                     gap: "24px",
                     justifyItems: "center",
                 }}>
-                    <input
-                        disabled={isReadOnly}
+                    <StyledField
                         value={foodName}
                         onChange={(e) => setFoodName(e.target.value)}
                         placeholder="Food name"
-                        style={inputFieldStyle({ width: "50%" })}
                     />
-                    <input
-                        disabled={isReadOnly}
+                    <StyledField
                         value={calories}
                         onChange={(e) => setCalories(e.target.value)}
                         placeholder="Calories per 100 grams"
-                        style={inputFieldStyle({ width: "50%" })}
                     />
 
-                    <input
-                        disabled={isReadOnly}
+                    <StyledField
                         value={carbohydrates}
                         onChange={(e) => setCarbohydrates(e.target.value)}
                         placeholder="Carbohydrates per 100 grams"
-                        style={inputFieldStyle({ width: "50%" })}
                     />
-                    <input
-                        disabled={isReadOnly}
+                    <StyledField
                         value={proteins}
                         onChange={(e) => setProteins(e.target.value)}
                         placeholder="Protein per 100 grams"
-                        style={inputFieldStyle({ width: "50%" })}
                     />
-                    <input
-                        disabled={isReadOnly}
+                    <StyledField
                         value={fats}
                         onChange={(e) => setFats(e.target.value)}
                         placeholder="Fats per 100 grams"
-                        style={inputFieldStyle({ width: "50%" })}
-                    /><input
-                        disabled={isReadOnly}
+                    />
+                    <StyledField
                         value={saturatedFats}
                         onChange={(e) => setSaturatedFats(e.target.value)}
                         placeholder="Saturated fats per 100 grams"
-                        style={inputFieldStyle({ width: "50%" })}
                     />
+                </div>
+                <div>
+                    {successMessage}
                 </div>
                 <div>
                     <StyledButton onClick={() => navigate("/nutrition")}>

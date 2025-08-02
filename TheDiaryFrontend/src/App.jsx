@@ -9,6 +9,7 @@ import LogFinanceTransaction from "./pages/LogFinanceTranscation";
 import ViewFinanceTransaction from "./pages/ViewFinanceTransaction";
 import Nutrition from "./pages/Nutrition";
 import LogFood from "./pages/LogFood";
+import LogMeal from "./pages/LogMeal";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/finances/:id" element={<ViewFinanceTransaction />} />
           <Route path="/nutrition" element={<Nutrition />} />
           <Route path="/nutrition/log-food" element={<LogFood />} />
+          <Route path="/nutrition/log-meal" element={<LogMeal />} />
         </Routes>
       </Layout>
     </Router>

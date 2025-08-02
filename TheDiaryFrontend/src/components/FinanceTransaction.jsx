@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StyledButton from "./StyledButton";
+import StyledField from "./StyledField";
 
 export default function FinanceTransaction({ componentMode, entryData = null, handleCreate, handleEdit, handleDelete }) {
     const today = new Date().toISOString().split("T")[0];
@@ -26,18 +27,6 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
         "ENTERTAINMENT", "CLOTHING", "ELECTRONICS", "EDUCATION",
         "TRAVEL", "WELLNESS", "OTHER",
     ];
-
-    const inputFieldStyle = (extraStyle = {}) => ({
-        backgroundColor: "transparent",
-        border: "1px solid black",
-        borderRadius: 4,
-        padding: "12px 16px",
-        color: "black",
-        fontSize: 16,
-        outline: "none",
-        width: "50%",
-        ...extraStyle,
-    });
 
     useEffect(() => {
         if (entryData) {
@@ -120,13 +109,13 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                 }}
             >
                 <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <input
+                    <StyledField
                         disabled={isReadOnly}
                         placeholder="Counterparty*"
                         value={counterparty}
                         onChange={(e) => setCounterparty(e.target.value)}
                         className="custom-input"
-                        style={inputFieldStyle()}
+                        extraStyle={{ width: "50%" }}
                     />
                     {errors.counterparty && (
                         <span style={{ color: "red", fontSize: "14px", marginTop: "4px" }}>
@@ -135,11 +124,11 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                     )}
                 </div>
                 <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <select
+                    <StyledField
+                        as="select"
                         disabled={isReadOnly}
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        style={inputFieldStyle()}
                     >
                         <option value="">Choose category*</option>
                         {categories.map((category) => (
@@ -147,7 +136,7 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                                 {category.charAt(0) + category.slice(1).toLowerCase()}
                             </option>
                         ))}
-                    </select>
+                    </StyledField>
                     {errors.category && (
                         <span style={{ color: "red", fontSize: "14px", marginTop: "4px" }}>
                             {errors.category}
@@ -155,16 +144,14 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                     )}
                 </div>
                 <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <input
+                    <StyledField
                         type="number"
                         className="no-spinner custom-input"
                         disabled={isReadOnly}
                         placeholder="Amount*"
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
-                        style={
-                            inputFieldStyle()
-                        }
+                        extraStyle={{ width: "50%" }}
                     />
                     {errors.amount && (
                         <span style={{ color: "red", fontSize: "14px", marginTop: "4px" }}>
@@ -215,31 +202,27 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
                         </label>
                     </div>
                 )}
-                <input
+                <StyledField
                     disabled={isReadOnly}
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    style={
-                        inputFieldStyle()
-                    }
+                    extraStyle={{ width: "50%" }}
                 />
-                <textarea
+                <StyledField
+                    as="textarea"
                     disabled={isReadOnly}
                     placeholder={isReadOnly ? "No Description" : "Description (Optional)"}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     className="custom-input"
                     rows={7}
-                    style={
-                        inputFieldStyle({
-                            rows: 10,
-                            resize: "none",
-                            width: "50%",
-                            height: "100%",
-                            gridColumn: "1 / span 2",
-                        })
-                    }
+                    extraStyle={{
+                        resize: "none",
+                        width: "50%",
+                        height: "100%",
+                        gridColumn: "1 / span 2",
+                    }}
                 />
                 <div style={{ gridColumn: "1 / span 2" }}>
                     <StyledButton
