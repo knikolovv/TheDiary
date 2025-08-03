@@ -123,7 +123,7 @@ export default function FoodEntry({ onCreate, clearFieldsTrigger, successMessage
                 <div>
                     {successMessage}
                 </div>
-                <div>
+                <div style={{paddingBottom:20}}>
                     <StyledButton onClick={() => navigate("/nutrition")}>
                         Cancel
                     </StyledButton>

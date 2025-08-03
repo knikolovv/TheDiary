@@ -91,21 +91,13 @@ export default function Calendar() {
       }
       fetchEvents();
     } catch (error) {
-      console.error(`Error creating event`, error)
+      console.error("Error creating event", error)
     }
   }
 
   return (
 
     <div style={{ width: "80vw", height: "80vh", margin: "auto" }}>
-      <style>
-        {`
-                .custom-input::placeholder {
-                    color: white;
-                    opacity: 1; /* Firefox */
-                }
-                `}
-      </style>
       <FullCalendar
         key={calendarEvents.length}
         headerToolbar={{

@@ -26,7 +26,7 @@ export default function FoodSearchField({ onSelect }) {
                     + `&fields=code,product_name,brands,nutriments`,
                     {
                         headers: {
-                            "User-Agent": "The Diary(Personal Project) - bobliest36@gmail.com"
+                            "User-Agent": "The Diary(Personal Project) - knikolov703@gmail.com"
                         }
                     }
                 );

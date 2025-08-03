@@ -68,27 +68,6 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
             backgroundColor: "#C6D4E1",
             paddingBottom: 24
         }}>
-            <style>
-                {`
-                .custom-input::placeholder {
-                    color: black;
-                    opacity:0.8;
-                }
-                .custom-input:focus::placeholder {
-                     color: transparent;
-                }
-                .no-spinner::-webkit-outer-spin-button,
-                .no-spinner::-webkit-inner-spin-button {
-                  -webkit-appearance: none;
-                  margin: 0;
-                }
-
-                .no-spinner {
-                  -moz-appearance: textfield;
-                }
-                `}
-            </style>
-
             <div style={{
                 textAlign: "center",
                 fontWeight: "bold",
@@ -97,7 +76,6 @@ export default function FinanceTransaction({ componentMode, entryData = null, ha
             }}>
                 Log a transaction
             </div>
-
             <div
                 style={{
                     display: "grid",

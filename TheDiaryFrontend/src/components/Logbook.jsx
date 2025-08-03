@@ -1,7 +1,15 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function Logbook({ title, entries, extraDetailsByMonth = {}, extraDetailsDaily = [], renderEntry }) {
+export default function Logbook({
+    title,
+    entries = [],
+    extraDetailsByMonth = {},
+    extraDetailsDaily = [],
+    renderEntry,
+    calculateTotal,
+    unit
+}) {
     const location = useLocation();
     const currentPath = location.pathname;
 
@@ -13,7 +21,6 @@ export default function Logbook({ title, entries, extraDetailsByMonth = {}, extr
         acc[monthKey][entry.date].push(entry);
         return acc;
     }, {});
-
 
     const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => (a < b ? 1 : -1));
     const sortedDays = (month) =>
@@ -58,154 +65,154 @@ export default function Logbook({ title, entries, extraDetailsByMonth = {}, extr
                 </div>
             )}
 
-            {entries.length > 0 && (<div
-                style={{
-                    border: "2px solid black",
-                    borderRadius: 10,
-                    width: "95%",
-                    marginBottom: 10,
-                    justifySelf: "center",
-                }}
-            >
-
-                {sortedMonths.map((month) => (
-                    <div key={month} style={{ marginBottom: 16 }}>
-                        <div
-                            style={{
-                                fontSize: 26,
-                                textAlign: "center",
-                                marginTop: 8,
-                                fontWeight: "bold",
-                            }}
-                        >
-                            {formatMonthYear(month)}
-                        </div>
-
-                        {extraDetailsByMonth[month] && (
-                            <ul
+            {entries.length > 0 && (
+                <div
+                    style={{
+                        border: "2px solid black",
+                        borderRadius: 10,
+                        width: "95%",
+                        marginBottom: 10,
+                        justifySelf: "center",
+                    }}
+                >
+                    {sortedMonths.map((month) => (
+                        <div key={month} style={{ marginBottom: 16 }}>
+                            <div
                                 style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "space-evenly",
-                                    listStyle: "none",
-                                    padding: 0,
-                                    border: "2px solid black",
-                                    width: "80%",
-                                    margin: "0 auto",
-                                    borderRadius: 20,
-                                    backgroundColor: "#44749D",
-                                    marginTop: 10,
+                                    fontSize: 26,
+                                    textAlign: "center",
+                                    marginTop: 8,
+                                    fontWeight: "bold",
                                 }}
                             >
-                                {extraDetailsByMonth[month].map((detail) => (
-                                    <li key={detail.name}>
-                                        <div
+                                {formatMonthYear(month)}
+                            </div>
+
+                            {extraDetailsByMonth[month] && (
+                                <ul
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-evenly",
+                                        listStyle: "none",
+                                        padding: 0,
+                                        border: "2px solid black",
+                                        width: "80%",
+                                        margin: "0 auto",
+                                        borderRadius: 20,
+                                        backgroundColor: "#44749D",
+                                        marginTop: 10,
+                                    }}
+                                >
+                                    {extraDetailsByMonth[month].map((detail) => (
+                                        <li key={detail.name}>
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: 4,
+                                                    color: "white",
+                                                }}
+                                            >
+                                                <div style={{ fontSize: 18, fontWeight: "bold" }}>
+                                                    {detail.name}:
+                                                </div>
+                                                <div>{Number(detail.value).toFixed(2)}{unit}</div>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+
+                            {sortedDays(month).map((date) => (
+                                <div key={date} style={{ justifyItems: "center", marginTop: 8 }}>
+                                    <h3 style={{ textAlign: "center" }}>{date}</h3>
+
+                                    {getDailyDetails(date).length > 0 && (
+                                        <ul
                                             style={{
                                                 display: "flex",
-                                                alignItems: "center",
-                                                gap: 4,
-                                                color: "white",
+                                                flexDirection: "row",
+                                                justifyContent: "space-evenly",
+                                                listStyle: "none",
+                                                padding: 0,
+                                                marginTop: 4,
+                                                width: "80%",
+                                                margin: "0 auto",
                                             }}
                                         >
-                                            <div style={{ fontSize: 18, fontWeight: "bold" }}>
-                                                {detail.name}:
-                                            </div>
-                                            <div>{Number(detail.value).toFixed(2)}$</div>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                                            {getDailyDetails(date).map((detail) => (
+                                                <li key={detail.name}>
+                                                    <div
+                                                        style={{
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            gap: 4,
+                                                            color: detail.color,
+                                                        }}
+                                                    >
+                                                        <div style={{ fontSize: 14, fontWeight: "bold" }}>
+                                                            {detail.name}:
+                                                        </div>
+                                                        <div>{Number(detail.value).toFixed(2)}{unit}</div>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
 
-                        {sortedDays(month).map((date) => (
-                            <div key={date} style={{ justifyItems: "center", marginTop: 8 }}>
-                                <h3 style={{ textAlign: "center" }}>{date}</h3>
-
-                                {getDailyDetails(date).length > 0 && (
-                                    <ul
+                                    <div
                                         style={{
                                             display: "flex",
-                                            flexDirection: "row",
-                                            justifyContent: "space-evenly",
-                                            listStyle: "none",
-                                            padding: 0,
+                                            border: "2px solid black",
+                                            borderRadius: 20,
+                                            width: "85%",
+                                            margin: "8px auto",
+                                            backgroundColor: "#44749D",
+                                        }}
+                                    >
+                                        <ul
+                                            style={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                listStyle: "none",
+                                                paddingLeft: 5,
+                                                width: "100%",
+                                                gap: "20px",
+                                            }}
+                                        >
+                                            {[...groupedByMonth[month][date]]
+                                                .sort((a, b) => b.id - a.id)
+                                                .map((entry) => (
+                                                    <li key={entry.id}>
+                                                        <Link to={`${currentPath}/${entry.id}`} style={{ textDecoration: "none" }}>
+                                                            {renderEntry(entry)}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                        </ul>
+                                    </div>
+
+                                    <div
+                                        style={{
+                                            textAlign: "end",
+                                            fontWeight: "bold",
                                             marginTop: 4,
-                                            width: "80%",
+                                            width: "85%",
                                             margin: "0 auto",
                                         }}
                                     >
-                                        {getDailyDetails(date).map((detail) => (
-                                            <li key={detail.name}>
-                                                <div
-                                                    style={{
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        gap: 4,
-                                                        color: detail.color,
-                                                    }}
-                                                >
-                                                    <div style={{ fontSize: 14, fontWeight: "bold" }}>
-                                                        {detail.name}:
-                                                    </div>
-                                                    <div>{Number(detail.value).toFixed(2)}</div>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        border: "2px solid black",
-                                        borderRadius: 20,
-                                        width: "85%",
-                                        margin: "8px auto",
-                                        backgroundColor: "#44749D",
-                                    }}
-                                >
-                                    <ul
-                                        style={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            listStyle: "none",
-                                            paddingLeft: 5,
-                                            width: "100%",
-                                            gap: "20px",
-                                        }}
-                                    >
-                                        {[...groupedByMonth[month][date]]
-                                            .sort((a, b) => b.id - a.id)
-                                            .map((entry) => (
-                                                <li key={entry.id}>
-                                                    <Link to={`${currentPath}/${entry.id}`} style={{ textDecoration: "none" }} >
-                                                        {renderEntry(entry)}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                    </ul>
+                                        Total:{" "}
+                                        {groupedByMonth[month][date]
+                                            .reduce((sum, entry) => sum + calculateTotal(entry), 0)
+                                            .toFixed(2)}
+                                        {unit}
+                                    </div>
                                 </div>
-
-                                <div
-                                    style={{
-                                        textAlign: "end",
-                                        fontWeight: "bold",
-                                        marginTop: 4,
-                                        width: "85%",
-                                        margin: "0 auto",
-                                    }}
-                                >
-                                    Total:{" "}
-                                    {groupedByMonth[month][date]
-                                        .reduce((sum, entry) => sum + entry.amount, 0)
-                                        .toFixed(2)}
-                                    $
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                ))}
-            </div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
             )}
         </div>
     );

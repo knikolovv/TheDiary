@@ -77,7 +77,9 @@ export default function Finances() {
                 title={"DesktopBank"}
                 extraDetailsByMonth={extraDetailsByMonth}
                 entries={financeEntries}
-                renderEntry={renderEntry} />
+                renderEntry={renderEntry}
+                calculateTotal={(entry) => entry.amount}
+                unit = "$" />
         </div>
     )
 }

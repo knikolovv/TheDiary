@@ -16,11 +16,18 @@ public class FoodService {
         return foodRepo.findAll();
     }
 
-    public FoodEntry getFoodByName(String foodName) {
-        return foodRepo.findByFoodNameContaining(foodName);
+    public List<FoodEntry> findFoodByName(String foodName) {
+        return foodRepo.findByFoodNameContainingIgnoreCase(foodName);
     }
 
     public FoodEntry saveFood(FoodEntry foodEntry) {
         return foodRepo.save(foodEntry);
+    }
+
+    public void deleteFoodById(Long id) {
+        if (!foodRepo.existsById(id)) {
+            throw new RuntimeException("Food not found with id: " + id);
+        }
+        foodRepo.deleteById(id);
     }
 }

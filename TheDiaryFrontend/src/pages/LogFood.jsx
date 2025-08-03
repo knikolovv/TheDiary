@@ -7,7 +7,7 @@ export default function LogFood() {
 
     const handleCreate = async (foodEntry) => {
         try {
-            const response = await fetch("http://localhost:8080/food/create", {
+            const response = await fetch(`http://localhost:8080/food/create`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
