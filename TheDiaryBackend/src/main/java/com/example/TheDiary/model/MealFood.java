@@ -1,4 +1,5 @@
 package com.example.TheDiary.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class MealFood {
 
     @ManyToOne
     @JoinColumn(name = "meal_id")
+    @JsonBackReference
     private Meal meal;
 
     @ManyToOne

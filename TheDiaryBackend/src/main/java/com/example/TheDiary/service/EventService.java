@@ -2,12 +2,14 @@ package com.example.TheDiary.service;
 
 import com.example.TheDiary.model.Event;
 import com.example.TheDiary.repository.EventRepo;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class EventService {
     private EventRepo eventRepo;

@@ -34,7 +34,7 @@ export default function Nutrition() {
                 }}
             >
                 <div style={{ width: "15%" }}>{entry.mealType}</div>
-                <div style={{ display: "flex", marginLeft: "25px", fontSize: "0.9rem", alignItems: "center" }}>
+                <div style={{ display: "flex", marginLeft: "20px", fontSize: "0.9rem", alignItems: "center" }}>
                     Calories: {entry.totalCalories.toFixed(2)} kcal |
                     Carbs: {entry.totalCarbs.toFixed(2)}g |
                     Protein: {entry.totalProteins.toFixed(2)}g |

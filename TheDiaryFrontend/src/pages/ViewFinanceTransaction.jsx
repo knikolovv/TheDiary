@@ -12,7 +12,7 @@ export default function ViewFinanceTransaction() {
         fetch(`http://localhost:8080/finance/${id}`)
             .then(result => result.json())
             .then(setEntryData)
-            .catch(error => console.error("Could not fetch entry", error));
+            .catch(error => console.error("Could not fetch transaction entry", error));
     }, [id]);
 
     const handleEdit = async (financeEntry) => {

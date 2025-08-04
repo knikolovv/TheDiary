@@ -2,10 +2,12 @@ package com.example.TheDiary.service;
 
 import com.example.TheDiary.model.Image;
 import com.example.TheDiary.repository.ImageRepo;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class ImageService {
     private ImageRepo imageRepo;

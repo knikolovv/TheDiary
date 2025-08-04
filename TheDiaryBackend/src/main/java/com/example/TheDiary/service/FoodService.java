@@ -2,12 +2,14 @@ package com.example.TheDiary.service;
 
 import com.example.TheDiary.model.FoodEntry;
 import com.example.TheDiary.repository.FoodRepo;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class FoodService {
     private FoodRepo foodRepo;

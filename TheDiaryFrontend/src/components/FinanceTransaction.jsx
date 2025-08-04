@@ -6,12 +6,12 @@ import StyledField from "./StyledField";
 export default function FinanceTransaction({ componentMode, entryData = null, handleCreate, handleEdit, handleDelete }) {
     const today = new Date().toISOString().split("T")[0];
 
-    const [category, setCategory] = useState(entryData?.category || "");
-    const [date, setDate] = useState(entryData?.date || today);
-    const [counterparty, setCounterparty] = useState(entryData?.counterparty || "");
-    const [amount, setAmount] = useState(entryData?.amount ?? "");
-    const [paymentMethod, setPaymentMethod] = useState(entryData?.paymentMethod || "CARD");
-    const [description, setDescription] = useState(entryData?.description || "");
+    const [category, setCategory] = useState("");
+    const [date, setDate] = useState(today);
+    const [counterparty, setCounterparty] = useState("");
+    const [amount, setAmount] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState("CARD");
+    const [description, setDescription] = useState("");
     const [mode, setMode] = useState(componentMode);
     const [errors, setErrors] = useState({});
 

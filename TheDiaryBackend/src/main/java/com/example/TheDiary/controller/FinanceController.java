@@ -42,11 +42,7 @@ public class FinanceController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFinanceEntryById(@PathVariable Long id) {
-        if (financeService.getFinanceEntryById(id) == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            financeService.deleteFinanceEntryById(id);
-            return ResponseEntity.ok().build();
-        }
+        financeService.deleteFinanceEntryById(id);
+        return ResponseEntity.ok().build();
     }
 }

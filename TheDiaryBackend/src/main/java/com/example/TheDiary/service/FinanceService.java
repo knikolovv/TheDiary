@@ -2,6 +2,7 @@ package com.example.TheDiary.service;
 
 import com.example.TheDiary.model.FinanceEntry;
 import com.example.TheDiary.repository.FinanceRepo;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class FinanceService {
     private FinanceRepo financeRepo;
