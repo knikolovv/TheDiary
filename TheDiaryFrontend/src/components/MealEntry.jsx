@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import StyledButton from "./StyledButton";
 import StyledField from "./StyledField";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function MealEntry({
     componentMode,
@@ -214,93 +215,110 @@ export default function MealEntry({
                 />
             </div>
             {mealFoodEntries.map((entry, index) => (
-                <div key={index} style={{
+                <div style={{
                     display: "flex",
-                    backgroundColor: "#44749D",
                     width: "85%",
                     height: "5vh",
                     minHeight: "30px",
-                    border: "1px solid black",
-                    borderRadius: 5,
                     margin: 20
                 }}>
-                    <div style={{ position: "relative", width: "25%" }}>
-                        <StyledField
-                            extraStyle={{
-                                width: "100%",
-                                height: "100%",
-                                border: "none"
-                            }}
-                            disabled={readOnly}
-                            placeholder="Food"
-                            value={entry.food}
-                            onChange={(e) => handleFoodInputChange(index, e.target.value)}
-                            className="custom-input"
-                        />
-                        {suggestions[index]?.length > 0 && (
-                            <div style={{
-                                position: "absolute",
-                                top: "100%",
-                                left: 0,
-                                right: 0,
-                                backgroundColor: "white",
-                                border: "1px solid #ccc",
-                                zIndex: 1000,
-                                maxHeight: "150px",
-                                overflowY: "auto"
-                            }}>
-                                {suggestions[index].map((food) => (
-                                    <div
-                                        key={food.id}
-                                        onClick={() => selectFood(index, food)}
-                                        style={{ padding: "8px", cursor: "pointer" }}
-                                    >
-                                        {food.foodName}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                    <div style={{
+                    <div key={index} style={{
                         display: "flex",
-                        width: "70%",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderLeft: "1px solid black",
-                        padding: 10,
-                        gap: 10
+                        backgroundColor: "#44749D",
+                        width: "100%",
+                        borderRight: "1px solid black",
+                        borderRadius: 5
                     }}>
-                        {selectedFoods[index] ? (
-                            <>
-                                <span>{selectedFoods[index].foodCaloriesPer100g} kcal</span>
-                                <span>C: {selectedFoods[index].carbohydrates}</span>
-                                <span>P: {selectedFoods[index].proteins}</span>
-                                <span>F: {selectedFoods[index].fats}</span>
-                                <span>Sf: {selectedFoods[index].saturatedFats}</span>
-                            </>
-                        ) : (
-                            "Macros"
-                        )}
+                        <div style={{ position: "relative", width: "25%" }}>
+                            <StyledField
+                                extraStyle={{
+                                    width: "100%",
+                                    height: "100%",
+                                    border: "none"
+                                }}
+                                disabled={readOnly}
+                                placeholder="Food"
+                                value={entry.food}
+                                onChange={(e) => handleFoodInputChange(index, e.target.value)}
+                                className="custom-input"
+                            />
+                            {suggestions[index]?.length > 0 && (
+                                <div style={{
+                                    position: "absolute",
+                                    top: "100%",
+                                    left: 0,
+                                    right: 0,
+                                    backgroundColor: "white",
+                                    border: "1px solid #ccc",
+                                    zIndex: 1000,
+                                    maxHeight: "150px",
+                                    overflowY: "auto"
+                                }}>
+                                    {suggestions[index].map((food) => (
+                                        <div
+                                            key={food.id}
+                                            onClick={() => selectFood(index, food)}
+                                            style={{ padding: "8px", cursor: "pointer" }}
+                                        >
+                                            {food.foodName}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                        <div style={{
+                            display: "flex",
+                            width: "70%",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderLeft: "1px solid black",
+                            padding: 10,
+                            gap: 10
+                        }}>
+                            {selectedFoods[index] ? (
+                                <>
+                                    <span>{selectedFoods[index].foodCaloriesPer100g} kcal</span>
+                                    <span>C: {selectedFoods[index].carbohydrates}</span>
+                                    <span>P: {selectedFoods[index].proteins}</span>
+                                    <span>F: {selectedFoods[index].fats}</span>
+                                    <span>Sf: {selectedFoods[index].saturatedFats}</span>
+                                </>
+                            ) : (
+                                "Macros"
+                            )}
+                        </div>
+                        <div style={{
+                            width: "25%",
+                            height: "100%",
+                            borderLeft: "1px solid black",
+                            marginLeft: "auto"
+                        }}>
+                            <StyledField
+                                extraStyle={{
+                                    width: "100%",
+                                    height: "100%",
+                                    border: "none",
+                                }}
+                                disabled={readOnly}
+                                placeholder="Serving Size"
+                                type="number"
+                                value={entry.servingSize}
+                                onChange={(e) => updateFoodEntry(index, "servingSize", e.target.value)}
+                                className="no-spinner custom-input"
+                            />
+                        </div>
+
                     </div>
-                    <div style={{
-                        width: "25%",
-                        height: "100%",
-                        borderLeft: "1px solid black",
-                        marginLeft: "auto"
-                    }}>
-                        <StyledField
-                            extraStyle={{
-                                width: "100%",
-                                height: "100%",
-                                border: "none",
-                            }}
-                            disabled={readOnly}
-                            placeholder="Serving Size"
-                            type="number"
-                            value={entry.servingSize}
-                            onChange={(e) => updateFoodEntry(index, "servingSize", e.target.value)}
-                            className="no-spinner custom-input"
-                        />
+                    <div style={{ alignContent: "center" }}>
+                        {!readOnly && (
+                            <DeleteIcon
+                                style={{
+                                    cursor: "pointer",
+                                    marginLeft: "10px",
+                                }}
+                                onClick={() => setMealFoodEntries(prev => prev.filter((_, i) => i !== index))}
+                            />
+                        )}
                     </div>
                 </div>
             ))}
